@@ -195,11 +195,4 @@ class Calc {
     }
     
 }
-enum ErrorTypes: String {
-    case existingOperator = "Un operateur est déja mis !"
-    case incorrectExpression = "Entrez une expression correcte !"
-    case haveEnoughElements = "Démarrez un nouveau calcul !"
-    case fatalError = "Unknown operator !"
-    case firstElementIsAnOperator = "L'expression ne peut pas commencer par un opérateur qui n'est pas moins !"
-    case divisionByZero = "L'opération aboutit à une division par zéro, ce qui est impossible !"
-}
+
