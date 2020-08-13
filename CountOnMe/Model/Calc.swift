@@ -136,7 +136,12 @@ class Calc {
             return
         }
         // result
-        expression.append(" = \(operationsToReduce.first!)")
+        guard let result: String = operationsToReduce.first else {
+            delegate?.alert(.notNumber)
+            return
+        }
+        let newResult = result.replacingOccurrences(of: ".", with: ",")
+        expression.append(" = \(newResult)")
     }
     
     private func priorityOperations() -> [String]? {
@@ -184,16 +189,16 @@ class Calc {
     
     private func reduceOperation(operations: [String], index: Int) -> [String]? {
         var operationsToReduce = operations
-        guard let left = Int(operationsToReduce[index]) else {
+        guard let left = Double(operationsToReduce[index]) else {
             delegate?.alert(.notNumber)
             return nil
         }
         let operand = operationsToReduce[index + 1]
-        guard let right = Int(operationsToReduce[index + 2]) else {
+        guard let right = Double(operationsToReduce[index + 2]) else {
             delegate?.alert(.notNumber)
             return nil
         }
-        let result: Int
+        let result: Double
         switch operand {
         case "+":
             result = left + right
@@ -216,7 +221,6 @@ class Calc {
         for _ in index...index + 2 {
             operationsToReduce.remove(at: index)
         }
-        print(operationsToReduce)
         return operationsToReduce
     }
     
