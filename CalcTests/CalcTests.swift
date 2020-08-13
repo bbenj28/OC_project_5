@@ -149,15 +149,15 @@ class CalcTests: XCTestCase {
         _ = calc.addTextToExpression(numbers[9])
         let error = calc.addTextToExpression("=")
         XCTAssertNil(error)
-        
+
         var verificationNumbers: [Int] = []
         for index in 0...4 {
             let index1 = index * 2
             let index2 = index1 + 1
             verificationNumbers.append(Int(numbers[index1])! * 10 + Int(numbers[index2])!)
         }
-        
-        
+
+
         let multiplicationResult = (-verificationNumbers[1]) * verificationNumbers[2]
         let divisionResult = (-verificationNumbers[3]) / (-verificationNumbers[4])
         let result = (-verificationNumbers[0]) + multiplicationResult - divisionResult

@@ -9,7 +9,7 @@
 import Foundation
 class Calc {
     // MARK: Attributes
-    var expression: String // Expression to resolve, displayed in controller's label
+    var expression: String = "" // Expression to resolve, displayed in controller's label
     var elements: [String] { // elements composing the expression
         return expression.split(separator: " ").map { "\($0)" }
     }
@@ -25,16 +25,17 @@ class Calc {
     }
     var isSecondOperator: Bool {
         let newElements: [String] = elements.dropLast()
-        return newElements.last != "+" && newElements.last != "-" && newElements.last != "×" && newElements.last != "÷" && newElements.count > 0
+        return newElements.last != "+"
+            && newElements.last != "-"
+            && newElements.last != "×"
+            && newElements.last != "÷"
+            && newElements.count > 0
     }
     var isFirstElementInExpression: Bool {
         return elements.count == 0
     }
     var expressionHaveResult: Bool {
         return expression.firstIndex(of: "=") != nil
-    }
-    init() {
-        expression = ""
     }
 
     // MARK: Expression modification
