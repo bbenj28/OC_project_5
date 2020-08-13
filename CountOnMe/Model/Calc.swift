@@ -9,6 +9,7 @@
 import Foundation
 class Calc {
     // MARK: Attributes
+    var delegate: CalcErrorDelegate?
     var expression: String = "" // Expression to resolve, displayed in controller's label
     var elements: [String] { // elements composing the expression
         return expression.split(separator: " ").map { "\($0)" }
@@ -42,87 +43,75 @@ class Calc {
     /// When a button is hitten, this method get the button's title and does the action linked to :
     /// verify if the text can be added, add it, and resolve it if the button is equal.
     /// - Parameter text: the button's title.
-    func addTextToExpression(_ text: String?) -> ErrorTypes? {
+    func addTextToExpression(_ text: String?) {
+        // clean expression if a result has been displayed
         if expressionHaveResult {
             expression = ""
         }
-        let verifiedText = checkExistingText(text)
-        if verifiedText == "" {
-            return nil
-        }
-        if Int(verifiedText) != nil {
-            addNumberToExpression(verifiedText)
-            return nil
-        } else {
-            let error: ErrorTypes?
-            switch verifiedText {
-            case "=":
-                error = resolveExpression()
-            default:
-                error = addOperatorToExpression(verifiedText)
+        // verify the entered text
+        if let verifiedText = text {
+            // verify the text is not empty
+            if verifiedText != "" {
+                // check if the text is a number
+                if Int(verifiedText) != nil {
+                    addNumberToExpression(verifiedText)
+                } else {
+                    if verifiedText == "=" {
+                        resolveExpression()
+                    } else {
+                        addOperatorToExpression(verifiedText)
+                    }
+                }
             }
-            return error
         }
     }
     // the button is a number
     private func addNumberToExpression(_ numberText: String) {
-        if expressionHaveResult {
-            expression = ""
-        }
         expression.append(numberText)
     }
     // the button is an operator
-    private func addOperatorToExpression(_ operatorText: String) -> ErrorTypes? {
+    private func addOperatorToExpression(_ operatorText: String) {
         if isFirstElementInExpression {
             if operatorText == "-" {
-                return addText("-")
+                expression = "-"
             } else {
-                return .firstElementIsAnOperator
+                delegate?.alert(.firstElementIsAnOperator)
             }
+        } else if canAddOperator {
+            expression.append(" \(operatorText) ")
+        } else if isSecondOperator && operatorText == "-" {
+            expression.append("-")
+        } else {
+            delegate?.alert(.existingOperator)
         }
-        if canAddOperator {
-            if operatorText != "" {
-                return addText(operatorText)
-            }
-            return nil
-        }
-        if isSecondOperator && operatorText == "-" {
-            return addText("-")
-        }
-        return .existingOperator
-    }
-    private func addText(_ text: String) -> ErrorTypes? {
-        if isSecondOperator && text == "-" {
-            expression += "\(text)"
-            return nil
-        }
-        if isFirstElementInExpression && text == "-" {
-            expression += "\(text)"
-            return nil
-        }
-        if Int(text) != nil {
-            expression += "\(text)"
-            return nil
-        }
-        expression += " \(text) "
-        return nil
-    }
-    private func checkExistingText(_ textInTextView: String?) -> String {
-        guard let existingText = textInTextView else {
-            return ""
-        }
-        return existingText
     }
 
     // MARK: Resolve expression
-    private func resolveExpression() -> ErrorTypes? {
+    private func resolveExpression() {
+        // expression verifications : is correct && have enought elements
         guard expressionIsCorrect else {
-            return .incorrectExpression
+            delegate?.alert(.incorrectExpression)
+            return
         }
         guard expressionHaveEnoughElement else {
-            return .haveEnoughElements
+            delegate?.alert(.haveEnoughElements)
+            return
         }
-
+        // Priority operations : × ÷
+        guard let operations = priorityOperations() else {
+            // an error message has been displayed
+            return
+        }
+        // Secundary operations : + -
+        guard let operationsToReduce = secundaryOperations(operations) else {
+            // an error message has been displayed
+            return
+        }
+        // result
+        expression.append(" = \(operationsToReduce.first!)")
+    }
+    
+    private func priorityOperations() -> [String]? {
         // Create local copy of operations
         var operationsToReduce = elements
         // Iterate over operations to resolve multiplication and division
@@ -136,32 +125,29 @@ class Calc {
             }
         }
         while operatorsIndex.count > 0 {
-            let reductionResult = reduceOperation(operations: operationsToReduce, index: operatorsIndex.last! - 1)
-            guard let newOperations: [String] = reductionResult as? [String] else {
-                guard let error: ErrorTypes = reductionResult[0] as? ErrorTypes else {
-                    return .fatalError
-                }
-                return error
+            if let newOperations = reduceOperation(operations: operationsToReduce, index: operatorsIndex.last! - 1) {
+                operationsToReduce = newOperations
+            } else {
+                return nil
             }
-            operationsToReduce = newOperations
             operatorsIndex.removeLast()
         }
+        return operationsToReduce
+    }
+    private func secundaryOperations(_ operations: [String]) -> [String]? {
+        var operationsToReduce = operations
         // Iterate over operations while an operand still here
         while operationsToReduce.count > 1 {
-            let reductionResult = reduceOperation(operations: operationsToReduce, index: 0)
-            guard let newOperations: [String] = reductionResult as? [String] else {
-                guard let error: ErrorTypes = reductionResult[0] as? ErrorTypes else {
-                    return .fatalError
-                }
-                return error
+            if let newOperations = reduceOperation(operations: operationsToReduce, index: 0) {
+                operationsToReduce = newOperations
+            } else {
+                return nil
             }
-            operationsToReduce = newOperations
         }
-
-        expression.append(" = \(operationsToReduce.first!)")
-        return nil
+        return operationsToReduce
     }
-    private func reduceOperation(operations: [String], index: Int) -> [Any] {
+    
+    private func reduceOperation(operations: [String], index: Int) -> [String]? {
         var operationsToReduce = operations
         var indexActualisation = index
         var multiplicator: Int
@@ -194,12 +180,12 @@ class Calc {
             if right != 0 {
                 result = left / right
             } else {
-                let error: ErrorTypes = .divisionByZero
-                return [error]
+                delegate?.alert(.divisionByZero)
+                return nil
             }
         default:
-            let error: ErrorTypes = .fatalError
-            return [error]
+            delegate?.alert(.fatalError)
+            return nil
         }
         operationsToReduce.insert("\(result)", at: indexActualisation+1)
         for _ in index...indexActualisation {

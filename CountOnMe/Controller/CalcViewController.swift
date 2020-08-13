@@ -8,32 +8,28 @@
 
 import UIKit
 
-class CalcViewController: UIViewController {
-
+class CalcViewController: UIViewController, CalcErrorDelegate {
+    
     @IBOutlet weak var textView: UITextView!
     @IBOutlet var numberButtons: [UIButton]!
     let calc = Calc()
 
     private func updateTextView() {
         textView.text = calc.expression
+        calc.delegate = self
     }
     // View actions
     @IBAction func tappedButton(_ sender: UIButton) {
-        if let error = calc.addTextToExpression(sender.title(for: .normal)) {
-            if error == .fatalError {
-                fatalError(error.rawValue)
-            } else {
-                alert(error)
-            }
-        } else {
-            updateTextView()
-        }
+        calc.addTextToExpression(sender.title(for: .normal))
+        updateTextView()
     }
-    private func alert(_ error: ErrorTypes) {
+    
+    func alert(_ error: ErrorTypes) {
         let message = error.rawValue
         let alertVC = UIAlertController(title: "Zéro!",
                 message: message, preferredStyle: .alert)
         alertVC.addAction(UIAlertAction(title: "OK", style: .cancel, handler: nil))
         present(alertVC, animated: true, completion: nil)
     }
+ 
 }

@@ -10,6 +10,7 @@
 		0341BAD824C387FF00081D19 /* CalcTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0341BAD724C387FF00081D19 /* CalcTests.swift */; };
 		0396E5C724C3549100D1D1A6 /* Calc.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0396E5C624C3549100D1D1A6 /* Calc.swift */; };
 		0396E5C924C3563300D1D1A6 /* CalcViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0396E5C824C3563300D1D1A6 /* CalcViewController.swift */; };
+		03B66A6324E5341B0080D3E3 /* CalcErrorDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 03B66A6224E5341B0080D3E3 /* CalcErrorDelegate.swift */; };
 		1FA43BD3224E569900F565CB /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1FA43BD2224E569900F565CB /* AppDelegate.swift */; };
 		1FA43BD8224E569900F565CB /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 1FA43BD6224E569900F565CB /* Main.storyboard */; };
 		1FA43BDA224E569A00F565CB /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 1FA43BD9224E569A00F565CB /* Assets.xcassets */; };
@@ -32,6 +33,7 @@
 		0341BAD924C387FF00081D19 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		0396E5C624C3549100D1D1A6 /* Calc.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Calc.swift; sourceTree = "<group>"; };
 		0396E5C824C3563300D1D1A6 /* CalcViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CalcViewController.swift; sourceTree = "<group>"; };
+		03B66A6224E5341B0080D3E3 /* CalcErrorDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CalcErrorDelegate.swift; sourceTree = "<group>"; };
 		1FA43BCF224E569900F565CB /* CountOnMe.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = CountOnMe.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		1FA43BD2224E569900F565CB /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		1FA43BD7224E569900F565CB /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
@@ -71,6 +73,7 @@
 			isa = PBXGroup;
 			children = (
 				0396E5C624C3549100D1D1A6 /* Calc.swift */,
+				03B66A6224E5341B0080D3E3 /* CalcErrorDelegate.swift */,
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -264,6 +267,7 @@
 			files = (
 				0396E5C924C3563300D1D1A6 /* CalcViewController.swift in Sources */,
 				0396E5C724C3549100D1D1A6 /* Calc.swift in Sources */,
+				03B66A6324E5341B0080D3E3 /* CalcErrorDelegate.swift in Sources */,
 				1FA43BD3224E569900F565CB /* AppDelegate.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
