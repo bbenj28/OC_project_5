@@ -156,25 +156,15 @@ class Calc {
     
     private func reduceOperation(operations: [String], index: Int) -> [String]? {
         var operationsToReduce = operations
-        var indexActualisation = index
-        var multiplicator: Int
-        if operationsToReduce[indexActualisation] == "-" {
-            multiplicator = -1
-            indexActualisation += 1
-        } else {
-            multiplicator = 1
+        guard let left = Int(operationsToReduce[index]) else {
+            delegate?.alert(.notNumber)
+            return nil
         }
-        let left = Int(operationsToReduce[indexActualisation])! * multiplicator
-        indexActualisation += 1
-        let operand = operationsToReduce[indexActualisation]
-        indexActualisation += 1
-        if operationsToReduce[indexActualisation] == "-" {
-            multiplicator = -1
-            indexActualisation += 1
-        } else {
-            multiplicator = 1
+        let operand = operationsToReduce[index + 1]
+        guard let right = Int(operationsToReduce[index + 2]) else {
+            delegate?.alert(.notNumber)
+            return nil
         }
-        let right = Int(operationsToReduce[indexActualisation])! * multiplicator
         let result: Int
         switch operand {
         case "+":
@@ -191,13 +181,14 @@ class Calc {
                 return nil
             }
         default:
-            delegate?.alert(.fatalError)
+            delegate?.alert(.unknownOperator)
             return nil
         }
-        operationsToReduce.insert("\(result)", at: indexActualisation+1)
-        for _ in index...indexActualisation {
+        operationsToReduce.insert("\(result)", at: index + 3)
+        for _ in index...index + 2 {
             operationsToReduce.remove(at: index)
         }
+        print(operationsToReduce)
         return operationsToReduce
     }
     
