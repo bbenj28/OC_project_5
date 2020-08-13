@@ -115,24 +115,31 @@ class Calc {
         // Create local copy of operations
         var operationsToReduce = elements
         // Iterate over operations to resolve multiplication and division
-        var operatorsIndex: [Int] = []
-        for index in 0...operationsToReduce.count - 1 {
-            switch operationsToReduce[index] {
+        
+        var okForReturn = false
+        while okForReturn == false {
+            if let index = searchForPriorityOperation(operationsToReduce) {
+                if let newOperations = reduceOperation(operations: operationsToReduce, index: index - 1) {
+                    operationsToReduce = newOperations
+                } else {
+                    return nil
+                }
+            } else {
+                okForReturn = true
+            }
+        }
+        return operationsToReduce
+    }
+    private func searchForPriorityOperation(_ operations: [String]) -> Int? {
+        for index in 0...operations.count - 1 {
+            switch operations[index] {
             case "×", "÷":
-                operatorsIndex.append(index)
+                return index
             default:
                 break
             }
         }
-        while operatorsIndex.count > 0 {
-            if let newOperations = reduceOperation(operations: operationsToReduce, index: operatorsIndex.last! - 1) {
-                operationsToReduce = newOperations
-            } else {
-                return nil
-            }
-            operatorsIndex.removeLast()
-        }
-        return operationsToReduce
+        return nil
     }
     private func secundaryOperations(_ operations: [String]) -> [String]? {
         var operationsToReduce = operations
