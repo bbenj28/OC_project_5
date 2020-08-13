@@ -38,7 +38,7 @@ class Calc {
     var expressionHaveResult: Bool {
         return expression.firstIndex(of: "=") != nil
     }
-
+    
     // MARK: Expression modification
     /// When a button is hitten, this method get the button's title and does the action linked to :
     /// verify if the text can be added, add it, and resolve it if the button is equal.
@@ -92,7 +92,7 @@ class Calc {
     }
     private func handleSecondOperator() {
         guard let firstOperator = elements.last else {
-            delegate?.alert(.unknownOperator)
+            delegate?.alert(.missingOperator)
             return
         }
         if firstOperator == "+" {
@@ -113,7 +113,7 @@ class Calc {
             expression.append("-")
         }
     }
-
+    
     // MARK: Resolve expression
     private func resolveExpression() {
         // expression verifications : is correct && have enought elements
@@ -223,6 +223,4 @@ class Calc {
         }
         return operationsToReduce
     }
-    
 }
-

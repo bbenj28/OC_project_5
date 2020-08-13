@@ -15,10 +15,13 @@ enum ErrorTypes: String {
     case notNumber
     case firstElementIsAnOperator
     case divisionByZero
+    case missingOperator
     
     
     func title() -> String {
         switch self {
+        case .missingOperator:
+            return "Fatal error"
         case .existingOperator:
             return "Opérateur existant"
         case .incorrectExpression:
@@ -38,6 +41,8 @@ enum ErrorTypes: String {
     
     func message() -> String {
         switch self {
+        case .missingOperator:
+            return "Un opérateur aurait du se trouver en fin d'expression !"
         case .existingOperator:
             return "Un operateur est déja mis !"
         case .incorrectExpression:
@@ -45,9 +50,9 @@ enum ErrorTypes: String {
         case .haveEnoughElements:
             return "Démarrez un nouveau calcul !"
         case .unknownOperator:
-            return "Opérateur inconnu !"
+            return "Un opérateur est inconnu !"
         case .notNumber:
-            return "Un nombre retourne nil !"
+            return "Un nombre aurait du se trouver à côté de l'opérateur !"
         case .firstElementIsAnOperator:
             return "L'expression ne peut pas commencer par un opérateur qui n'est pas moins !"
         case .divisionByZero:
