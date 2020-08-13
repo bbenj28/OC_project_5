@@ -10,7 +10,7 @@ import Foundation
 class Calc {
     // MARK: Attributes
     var delegate: CalcErrorDelegate?
-    var expression: String = "" // Expression to resolve, displayed in controller's label
+    var expression: String = "1 + 1 = 2" // Expression to resolve, displayed in controller's label
     var elements: [String] { // elements composing the expression
         return expression.split(separator: " ").map { "\($0)" }
     }
@@ -71,18 +71,46 @@ class Calc {
     }
     // the button is an operator
     private func addOperatorToExpression(_ operatorText: String) {
-        if isFirstElementInExpression {
-            if operatorText == "-" {
-                expression = "-"
-            } else {
-                delegate?.alert(.firstElementIsAnOperator)
-            }
-        } else if canAddOperator {
+        if canAddOperator && !isFirstElementInExpression {
             expression.append(" \(operatorText) ")
-        } else if isSecondOperator && operatorText == "-" {
-            expression.append("-")
+        } else if operatorText == "-" {
+            handleNegativeNumbersCase()
+        } else if isFirstElementInExpression {
+            delegate?.alert(.firstElementIsAnOperator)
         } else {
             delegate?.alert(.existingOperator)
+        }
+    }
+    private func handleNegativeNumbersCase() {
+        if isFirstElementInExpression {
+            expression = "-"
+        } else if isSecondOperator {
+            handleSecondOperator()
+        } else {
+            expression.remove(at: expression.index(before: expression.endIndex))
+        }
+    }
+    private func handleSecondOperator() {
+        guard let firstOperator = elements.last else {
+            delegate?.alert(.unknownOperator)
+            return
+        }
+        if firstOperator == "+" {
+            for _ in 1...2 {
+                expression.remove(at: expression.index(before: expression.endIndex))
+            }
+            expression.append("- ")
+        } else if firstOperator == "-" {
+            if expression.count < 2 {
+                expression = ""
+            } else {
+                for _ in 1...2 {
+                    expression.remove(at: expression.index(before: expression.endIndex))
+                }
+                expression.append("+ ")
+            }
+        } else {
+            expression.append("-")
         }
     }
 

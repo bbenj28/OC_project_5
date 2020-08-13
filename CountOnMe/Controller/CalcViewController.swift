@@ -13,14 +13,22 @@ class CalcViewController: UIViewController, CalcErrorDelegate {
     @IBOutlet weak var textView: UITextView!
     @IBOutlet var numberButtons: [UIButton]!
     let calc = Calc()
-
+    
+    override func viewDidLoad() {
+        super.viewDidLoad()
+        calc.delegate = self
+    }
+    
     private func updateTextView() {
         textView.text = calc.expression
-        calc.delegate = self
     }
     // View actions
     @IBAction func tappedButton(_ sender: UIButton) {
         calc.addTextToExpression(sender.title(for: .normal))
+        print(calc.expression)
+        print(calc.expression.count)
+        print(calc.expression.split(separator: " "))
+        print(calc.elements)
         updateTextView()
     }
     
