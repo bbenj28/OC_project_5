@@ -25,9 +25,8 @@ class CalcViewController: UIViewController, CalcErrorDelegate {
     }
     
     func alert(_ error: ErrorTypes) {
-        let message = error.rawValue
-        let alertVC = UIAlertController(title: "Zéro!",
-                message: message, preferredStyle: .alert)
+        let alertVC = UIAlertController(title: error.title(),
+                                        message: error.message(), preferredStyle: .alert)
         alertVC.addAction(UIAlertAction(title: "OK", style: .cancel, handler: nil))
         present(alertVC, animated: true, completion: nil)
     }
