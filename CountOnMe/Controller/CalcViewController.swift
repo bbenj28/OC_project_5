@@ -20,7 +20,11 @@ class CalcViewController: UIViewController, CalcErrorDelegate {
     }
     
     private func updateTextView() {
+        // update textView with expression's content
         textView.text = calc.expression
+        // eventually auto scroll textView
+        let range = NSMakeRange(textView.text.count - 1, 0)
+        textView.scrollRangeToVisible(range)
     }
     // View actions
     @IBAction func tappedButton(_ sender: UIButton) {
