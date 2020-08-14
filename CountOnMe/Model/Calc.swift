@@ -7,23 +7,45 @@
 //
 
 import Foundation
+
 class Calc {
-    // MARK: Attributes
+    // MARK: - Attributes
+
+    /// Delegation to ask ViewController to display an alert.
     var delegate: CalcErrorDelegate?
-    var expression: String = "1 + 1 = 2" // Expression to resolve, displayed in controller's label
-    var elements: [String] { // elements composing the expression
+
+    /// Expression to resolve, displayed in controller's label.
+    var expression: String = "1 + 1 = 2"
+    
+    /// Elements composing the expression.
+    var elements: [String] {
         return expression.split(separator: " ").map { "\($0)" }
     }
+    
     // Error check computed variables
+    
+    /// Check that the expression doesn't finish with an operator.
     var expressionIsCorrect: Bool {
-        return elements.last != "+" && elements.last != "-" && elements.last != "×" && elements.last != "÷"
+        return elements.last != "+"
+            && elements.last != "-"
+            && elements.last != "×"
+            && elements.last != "÷"
     }
+    
+    /// Check the expression has enough elements.
     var expressionHaveEnoughElement: Bool {
         return elements.count >= 3
     }
+    
+    /// Check if an operator can be added.
     var canAddOperator: Bool {
-        return elements.last != "+" && elements.last != "-" && elements.last != "×" && elements.last != "÷"
+        return elements.last != "+"
+            && elements.last != "-"
+            && elements.last != "×"
+            && elements.last != "÷"
     }
+    
+    /// Check if the operator is the second one.
     var isSecondOperator: Bool {
         let newElements: [String] = elements.dropLast()
         return newElements.last != "+"
@@ -32,9 +54,13 @@ class Calc {
             && newElements.last != "÷"
             && newElements.count > 0
     }
+    
+    /// Check if the entry is the first element in expression.
     var isFirstElementInExpression: Bool {
         return elements.count == 0
     }
+    
+    /// Check if the expression have a result.
     var expressionHaveResult: Bool {
         return expression.firstIndex(of: "=") != nil
     }
@@ -56,20 +82,22 @@ class Calc {
                 if Int(verifiedText) != nil {
                     addNumberToExpression(verifiedText)
                 } else {
+                    // check if a result has been asked
                     if verifiedText == "=" {
                         resolveExpression()
                     } else {
+                        // an operator button has been hitten
                         addOperatorToExpression(verifiedText)
                     }
                 }
             }
         }
     }
-    // the button is a number
+    /// Add a number to expression.
     private func addNumberToExpression(_ numberText: String) {
         expression.append(numberText)
     }
-    // the button is an operator
+    /// Check if the operator can be added to expression and eventually add it.
     private func addOperatorToExpression(_ operatorText: String) {
         if canAddOperator && !isFirstElementInExpression {
             expression.append(" \(operatorText) ")

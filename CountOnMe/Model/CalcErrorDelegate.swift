@@ -7,6 +7,6 @@
 //
 
 import Foundation
-protocol CalcErrorDelegate {
+protocol CalcErrorDelegate: CalcViewController {
     func alert(_ error: ErrorTypes)
 }
