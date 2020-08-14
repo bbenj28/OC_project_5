@@ -217,7 +217,15 @@ class Calc {
             delegate?.alert(.unknownOperator)
             return nil
         }
-        operationsToReduce.insert("\(result)", at: index + 3)
+        if result < Double(Int.min) || result > Double(Int.max) {
+            operationsToReduce.insert("\(result)", at: index + 3)
+        } else {
+            if Double(Int(result)) == result {
+                operationsToReduce.insert("\(Int(result))", at: index + 3)
+            } else {
+                operationsToReduce.insert("\(result)", at: index + 3)
+            }
+        }
         for _ in index...index + 2 {
             operationsToReduce.remove(at: index)
         }
