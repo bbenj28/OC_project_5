@@ -221,6 +221,7 @@ class Calc {
     /// - returns: The first index of a multiplication or division sign. *nil* if no such signs have been found.
     private func searchForPriorityOperation(_ operations: [String]) -> Int? {
         for index in 0...operations.count - 1 {
+            // search first × or ÷ sign and return index of it
             switch operations[index] {
             case "×", "÷":
                 return index
@@ -228,6 +229,7 @@ class Calc {
                 break
             }
         }
+        // if no sign has been found, return nil
         return nil
     }
 
@@ -254,44 +256,58 @@ class Calc {
     /// - parameter index: Index of the first number of the operation to resolve in operations.
     /// - returns: List of remaining elements in operations. *nil* if an error message has been displayed.
     private func reduceOperation(operations: [String], index: Int) -> [String]? {
+        // create local copy of operations
         var operationsToReduce = operations
+        // get the left number
         guard let left = Double(operationsToReduce[index]) else {
             delegate?.displayAlert(.notNumber)
             return nil
         }
+        // get the operator and determine operation's type
         guard let operation: Operation = Operation.determination(operationsToReduce[index + 1]) else {
             delegate?.displayAlert(.unknownOperator)
             return nil
         }
+        // get the right number
         guard let right = Double(operationsToReduce[index + 2]) else {
             delegate?.displayAlert(.notNumber)
             return nil
         }
+        // resolve operation
         guard let result = operation.resolve(left, right) else {
             delegate?.displayAlert(.divisionByZero)
             return nil
         }
+        // translate result in string
         guard let translatedResult = resultInString(result) else {
             delegate?.displayAlert(.translatedResult)
             return nil
         }
+        // add result in operationsToReduce after right number
         operationsToReduce.insert(translatedResult, at: index + 3)
+        // remove left, operator, and right number from operationsToReduce
         for _ in index...index + 2 {
             operationsToReduce.remove(at: index)
         }
+        // return the new array
         return operationsToReduce
     }
+    /// Translate a number in a formatted string.
+    /// - parameter result: The number to translate.
+    /// - returns: The translated string, or *nil* if an error occured.
     private func resultInString(_ result: Double) -> String? {
+        // create instance
         let formatter = NumberFormatter()
         formatter.minimumFractionDigits = 0
         formatter.maximumFractionDigits = 6
         formatter.decimalSeparator = ","
+        // determine the result's numberStyle based on result's size
         if result > 9999999999 {
             formatter.numberStyle = .scientific
         } else {
             formatter.numberStyle = .none
         }
-        
+        // transform the formated number in string
         if let newResult = formatter.string(for: result) {
             return newResult
         } else {
