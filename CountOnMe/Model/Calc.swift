@@ -98,6 +98,13 @@ class Calc {
             }
         }
     }
+    
+    func CButtonHasBeenHitten() {
+        let numberToDelete: Int = expression.lastIndex(of: " ") == expression.index(before: expression.endIndex) ? 3:1
+        for _ in 1...numberToDelete {
+            expression.remove(at: expression.index(before: expression.endIndex))
+        }
+    }
 
     // MARK: - Add operator
 

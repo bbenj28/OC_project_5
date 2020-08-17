@@ -34,7 +34,7 @@
                                 <rect key="frame" x="15.5" y="291.5" width="344" height="237.5"/>
                                 <subviews>
                                     <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" spacing="10" translatesAutoresizingMaskIntoConstraints="NO" id="U2a-5D-kgc">
-                                        <rect key="frame" x="0.0" y="0.0" width="101.5" height="152"/>
+                                        <rect key="frame" x="0.0" y="0.0" width="101.5" height="206"/>
                                         <subviews>
                                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Raa-av-x4n">
                                                 <rect key="frame" x="0.0" y="0.0" width="101.5" height="44"/>
@@ -67,6 +67,17 @@
                                                 </state>
                                                 <connections>
                                                     <action selector="tappedButton:" destination="eqK-jh-KKu" eventType="touchUpInside" id="yx2-5P-Y2G"/>
+                                                </connections>
+                                            </button>
+                                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="RVQ-5F-rev">
+                                                <rect key="frame" x="0.0" y="162" width="101.5" height="44"/>
+                                                <color key="backgroundColor" red="0.21176470588235294" green="0.43529411764705883" blue="0.60392156862745094" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                                <fontDescription key="fontDescription" type="system" pointSize="26"/>
+                                                <state key="normal" title="AC">
+                                                    <color key="titleColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                                </state>
+                                                <connections>
+                                                    <action selector="ACButtonAction:" destination="eqK-jh-KKu" eventType="touchUpInside" id="ccd-qn-HQQ"/>
                                                 </connections>
                                             </button>
                                         </subviews>
@@ -121,7 +132,7 @@
                                         </subviews>
                                     </stackView>
                                     <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" spacing="10" translatesAutoresizingMaskIntoConstraints="NO" id="WCv-mh-kCr">
-                                        <rect key="frame" x="242.5" y="0.0" width="101.5" height="152"/>
+                                        <rect key="frame" x="242.5" y="0.0" width="101.5" height="206"/>
                                         <subviews>
                                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="UDN-zf-T0y">
                                                 <rect key="frame" x="0.0" y="0.0" width="101.5" height="44"/>
@@ -154,6 +165,17 @@
                                                 </state>
                                                 <connections>
                                                     <action selector="tappedButton:" destination="eqK-jh-KKu" eventType="touchUpInside" id="qq8-u2-gi5"/>
+                                                </connections>
+                                            </button>
+                                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="3R7-RF-2sP">
+                                                <rect key="frame" x="0.0" y="162" width="101.5" height="44"/>
+                                                <color key="backgroundColor" red="0.21176470588235294" green="0.43529411764705883" blue="0.60392156862745094" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                                <fontDescription key="fontDescription" type="system" pointSize="26"/>
+                                                <state key="normal" title="C">
+                                                    <color key="titleColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                                </state>
+                                                <connections>
+                                                    <action selector="CButtonAction:" destination="eqK-jh-KKu" eventType="touchUpInside" id="jzR-aQ-w4Q"/>
                                                 </connections>
                                             </button>
                                         </subviews>
@@ -250,6 +272,8 @@
                         <viewLayoutGuide key="safeArea" id="AWJ-Vl-uau"/>
                     </view>
                     <connections>
+                        <outlet property="ACButton" destination="RVQ-5F-rev" id="GSG-tQ-7zr"/>
+                        <outlet property="CButton" destination="3R7-RF-2sP" id="KJX-uj-Ku0"/>
                         <outlet property="textView" destination="T2H-yn-nBB" id="zIt-Cc-PCU"/>
                     </connections>
                 </viewController>
