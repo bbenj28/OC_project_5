@@ -13,51 +13,51 @@ class CalcTests: XCTestCase {
     // MARK: Add an operator or a number
     func testGivenExpressionIsEmpty_WhenAddANumber_ThenExpressionGetIt() {
         let number = chooseNumber()
-        let error = calc.addTextToExpression(number)
+        let error = calc.buttonHasBeenHitten(number)
         XCTAssert(number == calc.expression)
         XCTAssertNil(error)
     }
     func testGivenExpressionIsEmpty_WhenAddANegativeNumber_ThenExpressionGetIt() {
-        let error = calc.addTextToExpression("-")
+        let error = calc.buttonHasBeenHitten("-")
         let number = chooseNumber()
-        _ = calc.addTextToExpression(number)
+        _ = calc.buttonHasBeenHitten(number)
         XCTAssert(calc.expression == "-\(number)")
         XCTAssert(calc.elements.count == 1)
         XCTAssertNil(error)
     }
     func testGivenExpressionContainsANumber_WhenAddAnOperator_ThenExpressionGetIt() {
         let number = chooseNumber()
-        _ = calc.addTextToExpression(number)
+        _ = calc.buttonHasBeenHitten(number)
         let operat = chooseOperator()
-        let error = calc.addTextToExpression(operat)
+        let error = calc.buttonHasBeenHitten(operat)
         XCTAssertNil(error)
     }
 
     // MARK: Errors
     func testGivenExpressionIsEmpty_WhenAddNothing_ThenExpressionGetNothing() {
-        let error = calc.addTextToExpression(nil)
+        let error = calc.buttonHasBeenHitten(nil)
         XCTAssert(calc.expression == "")
         XCTAssertNil(error)
     }
     func testGivenExpressionContainsANumber_WhenResolve_ThenErrorIsDisplayed() {
         let number = chooseNumber()
-        _ = calc.addTextToExpression(number)
+        _ = calc.buttonHasBeenHitten(number)
         let error: ErrorTypes? = calc.addTextToExpression("=")
         XCTAssert(error == .haveEnoughElements)
     }
     func testGivenExpressionContainsANumberAndAnOperator_WhenAddAnOperatorWhichIsNotMinus_ThenErrorIsDisplayed() {
         let number = chooseNumber()
-        _ = calc.addTextToExpression(number)
+        _ = calc.buttonHasBeenHitten(number)
         let operat = "×"
-        _ = calc.addTextToExpression(operat)
+        _ = calc.buttonHasBeenHitten(operat)
         let error: ErrorTypes? = calc.addTextToExpression(operat)
         XCTAssert(error == .existingOperator)
     }
     func testGivenLastExpressionIsAnOperator_WhenResolve_ThenErrorIsDisplayed() {
         let number = chooseNumber()
-        _ = calc.addTextToExpression(number)
+        _ = calc.buttonHasBeenHitten(number)
         let operat = chooseOperator()
-        _ = calc.addTextToExpression(operat)
+        _ = calc.buttonHasBeenHitten(operat)
         let error: ErrorTypes? = calc.addTextToExpression("=")
         XCTAssert(error == .incorrectExpression)
     }
@@ -80,46 +80,46 @@ class CalcTests: XCTestCase {
     func testGivenExpressionIs2Plus2_WhenResolve_ThenResultIsDisplayedWithoutError() {
         let number = "2"
         let operat = "+"
-        _ = calc.addTextToExpression(number)
-        _ = calc.addTextToExpression(operat)
-        _ = calc.addTextToExpression(number)
-        let error = calc.addTextToExpression("=")
+        _ = calc.buttonHasBeenHitten(number)
+        _ = calc.buttonHasBeenHitten(operat)
+        _ = calc.buttonHasBeenHitten(number)
+        let error = calc.buttonHasBeenHitten("=")
         XCTAssertNil(error)
         XCTAssert(calc.expression == "2 + 2 = 4")
     }
     func testGivenExpressionIs2Minus2_WhenResolve_ThenResultIsDisplayedWithoutError() {
         let number = "2"
         let operat = "-"
-        _ = calc.addTextToExpression(number)
-        _ = calc.addTextToExpression(operat)
-        _ = calc.addTextToExpression(number)
-        let error = calc.addTextToExpression("=")
+        _ = calc.buttonHasBeenHitten(number)
+        _ = calc.buttonHasBeenHitten(operat)
+        _ = calc.buttonHasBeenHitten(number)
+        let error = calc.buttonHasBeenHitten("=")
         XCTAssertNil(error)
         XCTAssert(calc.expression == "2 - 2 = 0")
     }
     func testGivenExpressionIs2Times2_WhenResolve_ThenResultIsDisplayedWithoutError() {
         let number = "2"
         let operat = "×"
-        _ = calc.addTextToExpression(number)
-        _ = calc.addTextToExpression(operat)
-        _ = calc.addTextToExpression(number)
-        let error = calc.addTextToExpression("=")
+        _ = calc.buttonHasBeenHitten(number)
+        _ = calc.buttonHasBeenHitten(operat)
+        _ = calc.buttonHasBeenHitten(number)
+        let error = calc.buttonHasBeenHitten("=")
         XCTAssertNil(error)
         XCTAssert(calc.expression == "2 × 2 = 4")
     }
     func testGivenExpressionIs2DividedBy2_WhenResolve_ThenResultIsDisplayedWithoutError() {
         let number = "2"
         let operat = "÷"
-        _ = calc.addTextToExpression(number)
-        _ = calc.addTextToExpression(operat)
-        _ = calc.addTextToExpression(number)
-        let error = calc.addTextToExpression("=")
+        _ = calc.buttonHasBeenHitten(number)
+        _ = calc.buttonHasBeenHitten(operat)
+        _ = calc.buttonHasBeenHitten(number)
+        let error = calc.buttonHasBeenHitten("=")
         XCTAssertNil(error)
         XCTAssert(calc.expression == "2 ÷ 2 = 1")
     }
     func testGivenExpressionContainsAllOperators_WhenResolve_ThenMultiplicationAndDivisionAreResolvedFirst() {
         calc.expression = "3 + 4 × 5 - 8 ÷ 2"
-        let error = calc.addTextToExpression("=")
+        let error = calc.buttonHasBeenHitten("=")
         XCTAssertNil(error)
         XCTAssert(calc.expression == "3 + 4 × 5 - 8 ÷ 2 = 19")
     }
@@ -129,25 +129,25 @@ class CalcTests: XCTestCase {
         for _ in 1...10 {
             numbers.append(chooseNumber())
         }
-        _ = calc.addTextToExpression("-")
-        _ = calc.addTextToExpression(numbers[0])
-        _ = calc.addTextToExpression(numbers[1])
-        _ = calc.addTextToExpression("+")
-        _ = calc.addTextToExpression("-")
-        _ = calc.addTextToExpression(numbers[2])
-        _ = calc.addTextToExpression(numbers[3])
-        _ = calc.addTextToExpression("×")
-        _ = calc.addTextToExpression(numbers[4])
-        _ = calc.addTextToExpression(numbers[5])
-        _ = calc.addTextToExpression("-")
-        _ = calc.addTextToExpression("-")
-        _ = calc.addTextToExpression(numbers[6])
-        _ = calc.addTextToExpression(numbers[7])
-        _ = calc.addTextToExpression("÷")
-        _ = calc.addTextToExpression("-")
-        _ = calc.addTextToExpression(numbers[8])
-        _ = calc.addTextToExpression(numbers[9])
-        let error = calc.addTextToExpression("=")
+        _ = calc.buttonHasBeenHitten("-")
+        _ = calc.buttonHasBeenHitten(numbers[0])
+        _ = calc.buttonHasBeenHitten(numbers[1])
+        _ = calc.buttonHasBeenHitten("+")
+        _ = calc.buttonHasBeenHitten("-")
+        _ = calc.buttonHasBeenHitten(numbers[2])
+        _ = calc.buttonHasBeenHitten(numbers[3])
+        _ = calc.buttonHasBeenHitten("×")
+        _ = calc.buttonHasBeenHitten(numbers[4])
+        _ = calc.buttonHasBeenHitten(numbers[5])
+        _ = calc.buttonHasBeenHitten("-")
+        _ = calc.buttonHasBeenHitten("-")
+        _ = calc.buttonHasBeenHitten(numbers[6])
+        _ = calc.buttonHasBeenHitten(numbers[7])
+        _ = calc.buttonHasBeenHitten("÷")
+        _ = calc.buttonHasBeenHitten("-")
+        _ = calc.buttonHasBeenHitten(numbers[8])
+        _ = calc.buttonHasBeenHitten(numbers[9])
+        let error = calc.buttonHasBeenHitten("=")
         XCTAssertNil(error)
 
         var verificationNumbers: [Int] = []
@@ -168,12 +168,12 @@ class CalcTests: XCTestCase {
     // MARK: New expression
     func testGivenAResultHasBeenDisplayer_WhenAddNumber_ThenNewCalculationBegins() {
         let number = chooseNumber()
-        _ = calc.addTextToExpression(number)
+        _ = calc.buttonHasBeenHitten(number)
         let operat = chooseOperator()
-        _ = calc.addTextToExpression(operat)
-        _ = calc.addTextToExpression(number)
-        _ = calc.addTextToExpression("=")
-        _ = calc.addTextToExpression(number)
+        _ = calc.buttonHasBeenHitten(operat)
+        _ = calc.buttonHasBeenHitten(number)
+        _ = calc.buttonHasBeenHitten("=")
+        _ = calc.buttonHasBeenHitten(number)
         XCTAssert(calc.expression.count == 1)
     }
 

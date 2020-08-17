@@ -12,6 +12,7 @@
 		0396E5C924C3563300D1D1A6 /* CalcViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0396E5C824C3563300D1D1A6 /* CalcViewController.swift */; };
 		03B66A6324E5341B0080D3E3 /* CalcErrorDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 03B66A6224E5341B0080D3E3 /* CalcErrorDelegate.swift */; };
 		03B66A6524E547430080D3E3 /* ErrorTypes.swift in Sources */ = {isa = PBXBuildFile; fileRef = 03B66A6424E547430080D3E3 /* ErrorTypes.swift */; };
+		03D8152C24E7DE3B00E71964 /* Operation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 03D8152B24E7DE3B00E71964 /* Operation.swift */; };
 		1FA43BD3224E569900F565CB /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1FA43BD2224E569900F565CB /* AppDelegate.swift */; };
 		1FA43BD8224E569900F565CB /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 1FA43BD6224E569900F565CB /* Main.storyboard */; };
 		1FA43BDA224E569A00F565CB /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 1FA43BD9224E569A00F565CB /* Assets.xcassets */; };
@@ -36,6 +37,7 @@
 		0396E5C824C3563300D1D1A6 /* CalcViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CalcViewController.swift; sourceTree = "<group>"; };
 		03B66A6224E5341B0080D3E3 /* CalcErrorDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CalcErrorDelegate.swift; sourceTree = "<group>"; };
 		03B66A6424E547430080D3E3 /* ErrorTypes.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ErrorTypes.swift; sourceTree = "<group>"; };
+		03D8152B24E7DE3B00E71964 /* Operation.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Operation.swift; sourceTree = "<group>"; };
 		1FA43BCF224E569900F565CB /* CountOnMe.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = CountOnMe.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		1FA43BD2224E569900F565CB /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		1FA43BD7224E569900F565CB /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
@@ -77,6 +79,7 @@
 				0396E5C624C3549100D1D1A6 /* Calc.swift */,
 				03B66A6224E5341B0080D3E3 /* CalcErrorDelegate.swift */,
 				03B66A6424E547430080D3E3 /* ErrorTypes.swift */,
+				03D8152B24E7DE3B00E71964 /* Operation.swift */,
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -269,6 +272,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				0396E5C924C3563300D1D1A6 /* CalcViewController.swift in Sources */,
+				03D8152C24E7DE3B00E71964 /* Operation.swift in Sources */,
 				0396E5C724C3549100D1D1A6 /* Calc.swift in Sources */,
 				03B66A6524E547430080D3E3 /* ErrorTypes.swift in Sources */,
 				03B66A6324E5341B0080D3E3 /* CalcErrorDelegate.swift in Sources */,
@@ -469,13 +473,14 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_STYLE = Automatic;
+				DEVELOPMENT_TEAM = XF9Z2VTWR3;
 				INFOPLIST_FILE = "$(SRCROOT)/CountOnMe/Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 11.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = com.vincentsaluzzo.CountOnMe;
+				PRODUCT_BUNDLE_IDENTIFIER = com.bb.CountOnMe;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = 1;
@@ -487,13 +492,14 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_STYLE = Automatic;
+				DEVELOPMENT_TEAM = XF9Z2VTWR3;
 				INFOPLIST_FILE = "$(SRCROOT)/CountOnMe/Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 11.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = com.vincentsaluzzo.CountOnMe;
+				PRODUCT_BUNDLE_IDENTIFIER = com.bb.CountOnMe;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = 1;
