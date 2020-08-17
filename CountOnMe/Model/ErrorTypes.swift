@@ -7,7 +7,7 @@
 //
 
 import Foundation
-enum ErrorTypes: String {
+enum ErrorTypes {
     case existingOperator
     case incorrectExpression
     case haveEnoughElements
@@ -18,7 +18,7 @@ enum ErrorTypes: String {
     case missingOperator
     
     
-    func title() -> String {
+    var title: String {
         switch self {
         case .missingOperator:
             return "Fatal error"
@@ -39,7 +39,7 @@ enum ErrorTypes: String {
         }
     }
     
-    func message() -> String {
+    var message: String {
         switch self {
         case .missingOperator:
             return "Un opérateur aurait du se trouver en fin d'expression !"

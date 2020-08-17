@@ -1,5 +1,5 @@
 //
-//  CalcErrorDelegate.swift
+//  CalcDisplayDelegate.swift
 //  CountOnMe
 //
 //  Created by Benjamin Breton on 13/08/2020.
@@ -7,6 +7,7 @@
 //
 
 import Foundation
-protocol CalcErrorDelegate: CalcViewController {
-    func alert(_ error: ErrorTypes)
+protocol CalcDisplayDelegate {
+    func displayAlert(_ error: ErrorTypes)
+    func updateScreen(_ calculation: String)
 }

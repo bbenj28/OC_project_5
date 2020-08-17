@@ -10,7 +10,7 @@
 		0341BAD824C387FF00081D19 /* CalcTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0341BAD724C387FF00081D19 /* CalcTests.swift */; };
 		0396E5C724C3549100D1D1A6 /* Calc.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0396E5C624C3549100D1D1A6 /* Calc.swift */; };
 		0396E5C924C3563300D1D1A6 /* CalcViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0396E5C824C3563300D1D1A6 /* CalcViewController.swift */; };
-		03B66A6324E5341B0080D3E3 /* CalcErrorDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 03B66A6224E5341B0080D3E3 /* CalcErrorDelegate.swift */; };
+		03B66A6324E5341B0080D3E3 /* CalcDisplayDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 03B66A6224E5341B0080D3E3 /* CalcDisplayDelegate.swift */; };
 		03B66A6524E547430080D3E3 /* ErrorTypes.swift in Sources */ = {isa = PBXBuildFile; fileRef = 03B66A6424E547430080D3E3 /* ErrorTypes.swift */; };
 		03D8152C24E7DE3B00E71964 /* Operation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 03D8152B24E7DE3B00E71964 /* Operation.swift */; };
 		1FA43BD3224E569900F565CB /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1FA43BD2224E569900F565CB /* AppDelegate.swift */; };
@@ -35,7 +35,7 @@
 		0341BAD924C387FF00081D19 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		0396E5C624C3549100D1D1A6 /* Calc.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Calc.swift; sourceTree = "<group>"; };
 		0396E5C824C3563300D1D1A6 /* CalcViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CalcViewController.swift; sourceTree = "<group>"; };
-		03B66A6224E5341B0080D3E3 /* CalcErrorDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CalcErrorDelegate.swift; sourceTree = "<group>"; };
+		03B66A6224E5341B0080D3E3 /* CalcDisplayDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CalcDisplayDelegate.swift; sourceTree = "<group>"; };
 		03B66A6424E547430080D3E3 /* ErrorTypes.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ErrorTypes.swift; sourceTree = "<group>"; };
 		03D8152B24E7DE3B00E71964 /* Operation.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Operation.swift; sourceTree = "<group>"; };
 		1FA43BCF224E569900F565CB /* CountOnMe.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = CountOnMe.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -77,7 +77,7 @@
 			isa = PBXGroup;
 			children = (
 				0396E5C624C3549100D1D1A6 /* Calc.swift */,
-				03B66A6224E5341B0080D3E3 /* CalcErrorDelegate.swift */,
+				03B66A6224E5341B0080D3E3 /* CalcDisplayDelegate.swift */,
 				03B66A6424E547430080D3E3 /* ErrorTypes.swift */,
 				03D8152B24E7DE3B00E71964 /* Operation.swift */,
 			);
@@ -168,7 +168,6 @@
 				1FA43BCB224E569900F565CB /* Sources */,
 				1FA43BCC224E569900F565CB /* Frameworks */,
 				1FA43BCD224E569900F565CB /* Resources */,
-				036A19DB24C3198500BB873A /* SwiftLint */,
 			);
 			buildRules = (
 			);
@@ -237,27 +236,6 @@
 		};
 /* End PBXResourcesBuildPhase section */
 
-/* Begin PBXShellScriptBuildPhase section */
-		036A19DB24C3198500BB873A /* SwiftLint */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputFileListPaths = (
-			);
-			inputPaths = (
-			);
-			name = SwiftLint;
-			outputFileListPaths = (
-			);
-			outputPaths = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "if which swiftlint >/dev/null; then\n    swiftlint\nelse\n    echo \"warning: SwiftLint not installed, download from https://github.com/realm/SwiftLint\"\nfi\n";
-		};
-/* End PBXShellScriptBuildPhase section */
-
 /* Begin PBXSourcesBuildPhase section */
 		0341BAD124C387FF00081D19 /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
@@ -275,7 +253,7 @@
 				03D8152C24E7DE3B00E71964 /* Operation.swift in Sources */,
 				0396E5C724C3549100D1D1A6 /* Calc.swift in Sources */,
 				03B66A6524E547430080D3E3 /* ErrorTypes.swift in Sources */,
-				03B66A6324E5341B0080D3E3 /* CalcErrorDelegate.swift in Sources */,
+				03B66A6324E5341B0080D3E3 /* CalcDisplayDelegate.swift in Sources */,
 				1FA43BD3224E569900F565CB /* AppDelegate.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

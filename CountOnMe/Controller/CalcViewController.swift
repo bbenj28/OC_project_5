@@ -8,8 +8,7 @@
 
 import UIKit
 
-class CalcViewController: UIViewController, CalcErrorDelegate {
-    
+class CalcViewController: UIViewController {
     @IBOutlet weak var textView: UITextView!
     let calc = Calc()
     
@@ -19,8 +18,6 @@ class CalcViewController: UIViewController, CalcErrorDelegate {
     }
     
     private func updateTextView() {
-        // update textView with expression's content
-        textView.text = calc.expression
         // eventually auto scroll textView
         let range = NSMakeRange(textView.text.count - 1, 0)
         textView.scrollRangeToVisible(range)
@@ -28,18 +25,19 @@ class CalcViewController: UIViewController, CalcErrorDelegate {
     // View actions
     @IBAction func tappedButton(_ sender: UIButton) {
         calc.buttonHasBeenHitten(sender.title(for: .normal))
-        print(calc.expression)
-        print(calc.expression.count)
-        print(calc.expression.split(separator: " "))
-        print(calc.elements)
         updateTextView()
     }
-    
-    func alert(_ error: ErrorTypes) {
-        let alertVC = UIAlertController(title: error.title(),
-                                        message: error.message(), preferredStyle: .alert)
+}
+
+extension CalcViewController: CalcDisplayDelegate {
+    func updateScreen(_ expression: String) {
+        // update textView with expression's content
+        textView.text = expression
+    }
+    func displayAlert(_ error: ErrorTypes) {
+        let alertVC = UIAlertController(title: error.title,
+                                        message: error.message, preferredStyle: .alert)
         alertVC.addAction(UIAlertAction(title: "OK", style: .cancel, handler: nil))
         present(alertVC, animated: true, completion: nil)
     }
- 
 }

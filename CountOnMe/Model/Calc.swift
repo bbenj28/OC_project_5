@@ -12,10 +12,14 @@ class Calc {
     // MARK: - Attributes
 
     /// Delegation to ask ViewController to display an alert.
-    var delegate: CalcErrorDelegate?
+    var delegate: CalcDisplayDelegate?
 
     /// Expression to resolve, displayed in controller's label.
-    var expression: String = "1 + 1 = 2"
+    var expression: String = "1 + 1 = 2" {
+        didSet {
+            delegate?.updateScreen(expression)
+        }
+    }
 
     /// Elements composing the expression.
     var elements: [String] {
@@ -107,10 +111,10 @@ class Calc {
             handleNegativeNumbersCase()
         } else if isFirstElementInExpression {
             // the operator can't be added because it's the first element, display an alert
-            delegate?.alert(.firstElementIsAnOperator)
+            delegate?.displayAlert(.firstElementIsAnOperator)
         } else {
             // the operator can't be added after another operator, display an alert
-            delegate?.alert(.existingOperator)
+            delegate?.displayAlert(.existingOperator)
         }
     }
     /// Check if a minus sign can be added for negative numbers.
@@ -130,7 +134,7 @@ class Calc {
     private func handleSecondOperator() {
         // get the last operator in expression
         guard let firstOperator = elements.last else {
-            delegate?.alert(.missingOperator)
+            delegate?.displayAlert(.missingOperator)
             return
         }
         if firstOperator == "+" {
@@ -163,11 +167,11 @@ class Calc {
     private func resolveExpression() {
         // expression verifications : is correct && have enought elements
         guard expressionIsCorrect else {
-            delegate?.alert(.incorrectExpression)
+            delegate?.displayAlert(.incorrectExpression)
             return
         }
         guard expressionHaveEnoughElement else {
-            delegate?.alert(.haveEnoughElements)
+            delegate?.displayAlert(.haveEnoughElements)
             return
         }
         // Priority operations : × ÷
@@ -182,7 +186,7 @@ class Calc {
         }
         // result
         guard let result: String = operationsToReduce.first else {
-            delegate?.alert(.notNumber)
+            delegate?.displayAlert(.notNumber)
             return
         }
         let newResult = result.replacingOccurrences(of: ".", with: ",")
@@ -253,19 +257,19 @@ class Calc {
     private func reduceOperation(operations: [String], index: Int) -> [String]? {
         var operationsToReduce = operations
         guard let left = Double(operationsToReduce[index]) else {
-            delegate?.alert(.notNumber)
+            delegate?.displayAlert(.notNumber)
             return nil
         }
         guard let operation: Operation = Operation.determination(operationsToReduce[index + 1]) else {
-            delegate?.alert(.unknownOperator)
+            delegate?.displayAlert(.unknownOperator)
             return nil
         }
         guard let right = Double(operationsToReduce[index + 2]) else {
-            delegate?.alert(.notNumber)
+            delegate?.displayAlert(.notNumber)
             return nil
         }
         guard let result = operation.resolve(left, right) else {
-            delegate?.alert(.divisionByZero)
+            delegate?.displayAlert(.divisionByZero)
             return nil
         }
         operationsToReduce.insert(resultInString(result), at: index + 3)
