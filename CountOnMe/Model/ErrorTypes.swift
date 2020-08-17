@@ -16,6 +16,7 @@ enum ErrorTypes {
     case firstElementIsAnOperator
     case divisionByZero
     case missingOperator
+    case translatedResult
     
     
     var title: String {
@@ -36,6 +37,8 @@ enum ErrorTypes {
             return "Opérateur en premier élément"
         case .divisionByZero:
             return "Division par zéro"
+        case .translatedResult:
+            return "Fatal error"
         }
     }
     
@@ -57,6 +60,8 @@ enum ErrorTypes {
             return "L'expression ne peut pas commencer par un opérateur qui n'est pas moins !"
         case .divisionByZero:
             return "L'opération aboutit à une division par zéro, ce qui est impossible !"
+        case .translatedResult:
+            return "Le résultat n'a pas pu être traduit au format texte !"
         }
     }
 }

@@ -189,8 +189,7 @@ class Calc {
             delegate?.displayAlert(.notNumber)
             return
         }
-        let newResult = result.replacingOccurrences(of: ".", with: ",")
-        expression.append(" = \(newResult)")
+        expression.append(" = \(result)")
     }
 
     /// Resolve multiplications and divisions.
@@ -272,21 +271,31 @@ class Calc {
             delegate?.displayAlert(.divisionByZero)
             return nil
         }
-        operationsToReduce.insert(resultInString(result), at: index + 3)
+        guard let translatedResult = resultInString(result) else {
+            delegate?.displayAlert(.translatedResult)
+            return nil
+        }
+        operationsToReduce.insert(translatedResult, at: index + 3)
         for _ in index...index + 2 {
             operationsToReduce.remove(at: index)
         }
         return operationsToReduce
     }
-    private func resultInString(_ result: Double) -> String {
-        if result < Double(Int.min) || result > Double(Int.max) {
-            return "\(result)"
+    private func resultInString(_ result: Double) -> String? {
+        let formatter = NumberFormatter()
+        formatter.minimumFractionDigits = 0
+        formatter.maximumFractionDigits = 6
+        formatter.decimalSeparator = ","
+        if result > 9999999999 {
+            formatter.numberStyle = .scientific
         } else {
-            if Double(Int(result)) == result {
-                return "\(Int(result))"
-            } else {
-                return "\(result)"
-            }
+            formatter.numberStyle = .none
+        }
+        
+        if let newResult = formatter.string(for: result) {
+            return newResult
+        } else {
+            return nil
         }
     }
 }
