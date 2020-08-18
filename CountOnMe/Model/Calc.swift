@@ -68,7 +68,9 @@ class Calc {
     var expressionHaveResult: Bool {
         return expression.firstIndex(of: "=") != nil
     }
-
+    
+    var error: ErrorTypes?
+    
     // MARK: - Hitting buttons switch
 
     /// When a button is hitten, this method get the button's title and does the action linked to :
@@ -118,9 +120,11 @@ class Calc {
             handleNegativeNumbersCase()
         } else if isFirstElementInExpression {
             // the operator can't be added because it's the first element, display an alert
+            error = .firstElementIsAnOperator
             delegate?.displayAlert(.firstElementIsAnOperator)
         } else {
             // the operator can't be added after another operator, display an alert
+            error = .existingOperator
             delegate?.displayAlert(.existingOperator)
         }
     }
@@ -141,6 +145,7 @@ class Calc {
     private func handleSecondOperator() {
         // get the last operator in expression
         guard let firstOperator = elements.last else {
+            error = .missingOperator
             delegate?.displayAlert(.missingOperator)
             return
         }
@@ -174,10 +179,12 @@ class Calc {
     private func resolveExpression() {
         // expression verifications : is correct && have enought elements
         guard expressionIsCorrect else {
+            error = .incorrectExpression
             delegate?.displayAlert(.incorrectExpression)
             return
         }
         guard expressionHaveEnoughElement else {
+            error = .haveEnoughElements
             delegate?.displayAlert(.haveEnoughElements)
             return
         }
@@ -193,6 +200,8 @@ class Calc {
         }
         // result
         guard let result: String = operationsToReduce.first else {
+            print(operationsToReduce.first)
+            error = .notNumber
             delegate?.displayAlert(.notNumber)
             return
         }
@@ -267,26 +276,34 @@ class Calc {
         var operationsToReduce = operations
         // get the left number
         guard let left = Double(operationsToReduce[index]) else {
+            print(operationsToReduce[index])
+            error = .notNumber
             delegate?.displayAlert(.notNumber)
             return nil
         }
         // get the operator and determine operation's type
         guard let operation: Operation = Operation.determination(operationsToReduce[index + 1]) else {
+            error = .unknownOperator
             delegate?.displayAlert(.unknownOperator)
             return nil
         }
         // get the right number
         guard let right = Double(operationsToReduce[index + 2]) else {
+            print(operationsToReduce[index + 2])
+            error = .notNumber
             delegate?.displayAlert(.notNumber)
             return nil
         }
         // resolve operation
         guard let result = operation.resolve(left, right) else {
+            error = .divisionByZero
             delegate?.displayAlert(.divisionByZero)
+            expression = ""
             return nil
         }
         // translate result in string
         guard let translatedResult = resultInString(result) else {
+            error = .translatedResult
             delegate?.displayAlert(.translatedResult)
             return nil
         }
