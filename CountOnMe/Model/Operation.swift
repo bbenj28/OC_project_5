@@ -25,17 +25,17 @@ enum Operation {
         }
     }
     
-    func resolve(_ left: Double, _ right: Double) -> Double? {
+    func resolve(_ left: Double, _ right: Double) -> String? {
         switch self {
         case .addition:
-            return left + right
+            return String(left + right)
         case .substraction:
-            return left - right
+            return String(left - right)
         case .multiplication:
-            return left * right
+            return String(left * right)
         case .division:
             if right != 0 {
-                return left / right
+                return String(left / right)
             } else {
                 return nil
             }

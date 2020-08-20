@@ -18,6 +18,8 @@ enum ErrorTypes {
     case missingOperator
     case translatedResult
     case missingLastElement
+    case missingResult
+    case missingButtonTitle
     
     /// Alert's title.
     var title: String {
@@ -42,6 +44,10 @@ enum ErrorTypes {
             return "Fatal error"
         case .missingLastElement:
             return "Fatal error"
+        case .missingResult:
+            return "Fatal error"
+        case .missingButtonTitle:
+            return "Fatal error"
         }
     }
     
@@ -59,7 +65,7 @@ enum ErrorTypes {
         case .unknownOperator:
             return "Un opérateur est inconnu !"
         case .notNumber:
-            return "Un nombre aurait du se trouver à côté de l'opérateur !"
+            return "Un élément de type string n'a pas pu être converti en nombre, alors qu'il est sensé être un nombre !"
         case .firstElementIsAnOperator:
             return "L'expression ne peut pas commencer par un opérateur qui n'est pas moins !"
         case .divisionByZero:
@@ -68,6 +74,10 @@ enum ErrorTypes {
             return "Le résultat n'a pas pu être traduit au format texte !"
         case .missingLastElement:
             return "Le dernier élément de l'expression n'a pas pu être récupéré !"
+        case .missingResult:
+            return "Le résultat de l'opération n'a pas pu être trouvé dans operationsToReduce !"
+        case .missingButtonTitle:
+            return "Le titre du bouton est manquant, l'action n'a pas pu être résolue !"
         }
     }
 }

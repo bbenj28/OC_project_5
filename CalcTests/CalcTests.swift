@@ -30,6 +30,7 @@ class CalcTests: XCTestCase {
         calc.buttonHasBeenHitten(number)
         let operat = chooseOperator()
         calc.buttonHasBeenHitten(operat)
+        XCTAssert(calc.expression == "\(number) \(operat) ")
         XCTAssertNil(calc.error)
     }
 

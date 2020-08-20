@@ -77,7 +77,7 @@
                                                     <color key="titleColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                                 </state>
                                                 <connections>
-                                                    <action selector="ACButtonAction:" destination="eqK-jh-KKu" eventType="touchUpInside" id="ccd-qn-HQQ"/>
+                                                    <action selector="tappedButton:" destination="eqK-jh-KKu" eventType="touchUpInside" id="7Yv-uF-src"/>
                                                 </connections>
                                             </button>
                                         </subviews>
@@ -175,7 +175,7 @@
                                                     <color key="titleColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                                 </state>
                                                 <connections>
-                                                    <action selector="CButtonAction:" destination="eqK-jh-KKu" eventType="touchUpInside" id="jzR-aQ-w4Q"/>
+                                                    <action selector="tappedButton:" destination="eqK-jh-KKu" eventType="touchUpInside" id="eWB-7f-Y0Y"/>
                                                 </connections>
                                             </button>
                                         </subviews>

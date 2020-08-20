@@ -28,9 +28,14 @@ class CalcViewController: UIViewController {
     // View actions
     @IBAction func tappedButton(_ sender: UIButton) {
         calc.buttonHasBeenHitten(sender.title(for: .normal))
-        enableCACButton()
+        if calc.expression.count == 0 {
+            disableCACButtons()
+        } else {
+            enableCACButton()
+        }
         updateTextView()
     }
+    /*
     @IBAction func ACButtonAction(_ sender: Any) {
         calc.ACButtonHasBeenHitten()
         disableCACButtons()
@@ -43,6 +48,7 @@ class CalcViewController: UIViewController {
             enableCACButton()
         }
     }
+ */
     func disableCACButtons() {
         let buttons: [UIButton] = [CButton, ACButton]
         for button in buttons {
