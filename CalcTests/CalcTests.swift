@@ -10,53 +10,58 @@ import XCTest
 @testable import CountOnMe
 class CalcTests: XCTestCase {
     let calc = Calc()
-    // MARK: Add an operator or a number
+    
+    // MARK: - Add an operator or a number
+    
     func testGivenExpressionIsEmpty_WhenAddANumber_ThenExpressionGetIt() {
-        let number = chooseNumber()
+        let number = chooseNumberButton()
         calc.buttonHasBeenHitten(number)
-        XCTAssert(number == calc.expression)
+        XCTAssert(calc.expression == "\(number)")
         XCTAssertNil(calc.error)
     }
     func testGivenExpressionIsEmpty_WhenAddANegativeNumber_ThenExpressionGetIt() {
         calc.buttonHasBeenHitten("-")
-        let number = chooseNumber()
+        let number = chooseNumberButton()
         calc.buttonHasBeenHitten(number)
         XCTAssert(calc.expression == "-\(number)")
         XCTAssert(calc.elements.count == 1)
         XCTAssertNil(calc.error)
     }
     func testGivenExpressionContainsANumber_WhenAddAnOperator_ThenExpressionGetIt() {
-        let number = chooseNumber()
+        let number = chooseNumberButton()
         calc.buttonHasBeenHitten(number)
-        let operat = chooseOperator()
+        let operat = chooseOperatorButton()
         calc.buttonHasBeenHitten(operat)
         XCTAssert(calc.expression == "\(number) \(operat) ")
         XCTAssertNil(calc.error)
     }
 
-    // MARK: Errors
+    // MARK: - Errors
+    
     func testGivenExpressionIsEmpty_WhenAddNothing_ThenExpressionGetNothing() {
+        calc.expression = ""
         calc.buttonHasBeenHitten(nil)
         XCTAssert(calc.expression == "")
-        XCTAssertNil(calc.error)
+        XCTAssert(calc.error == .missingButtonTitle)
     }
     func testGivenExpressionContainsANumber_WhenResolve_ThenErrorIsDisplayed() {
-        let number = chooseNumber()
+        let number = chooseNumberButton()
         calc.buttonHasBeenHitten(number)
         calc.buttonHasBeenHitten("=")
         XCTAssert(calc.error == .haveEnoughElements)
     }
     func testGivenExpressionContainsANumberAndAnOperator_WhenAddAnOperatorWhichIsNotMinus_ThenErrorIsDisplayed() {
-        let number = chooseNumber()
+        let number = chooseNumberButton()
         calc.buttonHasBeenHitten(number)
-        calc.buttonHasBeenHitten("×")
+        let operat = chooseOperatorButton()
+        calc.buttonHasBeenHitten(operat)
         calc.buttonHasBeenHitten("×")
         XCTAssert(calc.error == .existingOperator)
     }
     func testGivenLastExpressionIsAnOperator_WhenResolve_ThenErrorIsDisplayed() {
-        let number = chooseNumber()
+        let number = chooseNumberButton()
         calc.buttonHasBeenHitten(number)
-        let operat = chooseOperator()
+        let operat = chooseOperatorButton()
         calc.buttonHasBeenHitten(operat)
         calc.buttonHasBeenHitten("=")
         XCTAssert(calc.error == .incorrectExpression)
@@ -67,71 +72,175 @@ class CalcTests: XCTestCase {
         XCTAssert(calc.error == .unknownOperator)
     }
     func testGivenExpressionContainsADivisionByZero_WhenHitEqual_ThenErrorIsDisplayedAndExpressionIsErased() {
-        calc.expression = "56 - 18 × 3 + 5 ÷ 0"
+        var numbers: [String] = []
+        for _ in 1...10 {
+            let number = chooseNumberButton()
+            numbers.append(number)
+        }
+        var operators: [String] = []
+        for _ in 1...4 {
+            let operat = chooseOperatorButton()
+            operators.append(operat)
+        }
+        calc.buttonHasBeenHitten(numbers[0])
+        calc.buttonHasBeenHitten(numbers[1])
+        calc.buttonHasBeenHitten(operators[0])
+        calc.buttonHasBeenHitten(numbers[2])
+        calc.buttonHasBeenHitten(numbers[3])
+        calc.buttonHasBeenHitten(operators[1])
+        calc.buttonHasBeenHitten(numbers[4])
+        calc.buttonHasBeenHitten(numbers[5])
+        calc.buttonHasBeenHitten("÷")
+        calc.buttonHasBeenHitten("0")
+        calc.buttonHasBeenHitten(operators[2])
+        calc.buttonHasBeenHitten(numbers[6])
+        calc.buttonHasBeenHitten(numbers[7])
+        calc.buttonHasBeenHitten(operators[3])
+        calc.buttonHasBeenHitten(numbers[8])
+        calc.buttonHasBeenHitten(numbers[9])
         calc.buttonHasBeenHitten("=")
         XCTAssert(calc.error == .divisionByZero)
     }
 
-    // MARK: Expression resolving
-
-
-
-            // MARK: with positive numbers
-    func testGivenExpressionIs2Plus2_WhenResolve_ThenResultIsDisplayedWithoutError() {
-        calc.buttonHasBeenHitten("2")
+    // MARK: - Resolve positive numbers
+    
+    func testGivenExpressionIsAnAddition_WhenResolve_ThenResultIsDisplayedWithoutError() {
+        var numbersDouble: [Double] = []
+        for _ in 1...2 {
+            let number = Int.random(in: 1...9)
+            numbersDouble.append(Double(number))
+        }
+        let numbers = numbersDouble.map({String(Int($0))})
+        calc.buttonHasBeenHitten(numbers[0])
         calc.buttonHasBeenHitten("+")
-        calc.buttonHasBeenHitten("2")
+        calc.buttonHasBeenHitten(numbers[1])
         calc.buttonHasBeenHitten("=")
+        guard let result = calc.resultInString(numbersDouble[0] + numbersDouble[1]) else {
+            XCTFail()
+            return
+        }
         XCTAssertNil(calc.error)
-        XCTAssert(calc.expression == "2 + 2 = 4")
+        XCTAssert(calc.expression == "\(numbers[0]) + \(numbers[1]) = \(result)")
     }
-    func testGivenExpressionIs2Minus2_WhenResolve_ThenResultIsDisplayedWithoutError() {
-        calc.buttonHasBeenHitten("2")
+    func testGivenExpressionIsASubstraction_WhenResolve_ThenResultIsDisplayedWithoutError() {
+        var numbersDouble: [Double] = []
+        for _ in 1...2 {
+            let number = Int.random(in: 1...9)
+            numbersDouble.append(Double(number))
+        }
+        let numbers = numbersDouble.map({String(Int($0))})
+        calc.buttonHasBeenHitten(numbers[0])
         calc.buttonHasBeenHitten("-")
-        calc.buttonHasBeenHitten("2")
+        calc.buttonHasBeenHitten(numbers[1])
         calc.buttonHasBeenHitten("=")
+        guard let result = calc.resultInString(numbersDouble[0] - numbersDouble[1]) else {
+            XCTFail()
+            return
+        }
         XCTAssertNil(calc.error)
-        XCTAssert(calc.expression == "2 - 2 = 0")
+        XCTAssert(calc.expression == "\(numbers[0]) - \(numbers[1]) = \(result)")
     }
-    func testGivenExpressionIs2Times2_WhenResolve_ThenResultIsDisplayedWithoutError() {
-        calc.buttonHasBeenHitten("2")
+    func testGivenExpressionIsAMultiplication_WhenResolve_ThenResultIsDisplayedWithoutError() {
+        var numbersDouble: [Double] = []
+        for _ in 1...2 {
+            let number = Int.random(in: 1...9)
+            numbersDouble.append(Double(number))
+        }
+        let numbers = numbersDouble.map({String(Int($0))})
+        calc.buttonHasBeenHitten(numbers[0])
         calc.buttonHasBeenHitten("×")
-        calc.buttonHasBeenHitten("2")
+        calc.buttonHasBeenHitten(numbers[1])
         calc.buttonHasBeenHitten("=")
+        guard let result = calc.resultInString(numbersDouble[0] * numbersDouble[1]) else {
+            XCTFail()
+            return
+        }
         XCTAssertNil(calc.error)
-        XCTAssert(calc.expression == "2 × 2 = 4")
+        XCTAssert(calc.expression == "\(numbers[0]) × \(numbers[1]) = \(result)")
     }
-    func testGivenExpressionIs2DividedBy2_WhenResolve_ThenResultIsDisplayedWithoutError() {
-        calc.buttonHasBeenHitten("2")
+    func testGivenExpressionIsADivision_WhenResolve_ThenResultIsDisplayedWithoutError() {
+        var numbersDouble: [Double] = []
+        for _ in 1...2 {
+            let number = Int.random(in: 1...9)
+            numbersDouble.append(Double(number))
+        }
+        let numbers = numbersDouble.map({String(Int($0))})
+        calc.buttonHasBeenHitten(numbers[0])
         calc.buttonHasBeenHitten("÷")
-        calc.buttonHasBeenHitten("2")
+        calc.buttonHasBeenHitten(numbers[1])
         calc.buttonHasBeenHitten("=")
+        guard let result = calc.resultInString(numbersDouble[0] / numbersDouble[1]) else {
+            XCTFail()
+            return
+        }
         XCTAssertNil(calc.error)
-        XCTAssert(calc.expression == "2 ÷ 2 = 1")
+        XCTAssert(calc.expression == "\(numbers[0]) ÷ \(numbers[1]) = \(result)")
     }
     func testGivenExpressionContainsAllOperators_WhenResolve_ThenMultiplicationAndDivisionAreResolvedFirst() {
-        calc.expression = "3 + 4 × 5 - 8 ÷ 2"
-        calc.buttonHasBeenHitten("=")
-        XCTAssertNil(calc.error)
-        XCTAssert(calc.expression == "3 + 4 × 5 - 8 ÷ 2 = 19")
-    }
-            // MARK: with negative numbers
-    func testGivenExpressionContainsNegativeNumbers_WhenResolve_ThenResultIsCorrectWithoutError() {
-        var numbers: [String] = []
-        for _ in 1...10 {
-            numbers.append(chooseNumber())
+        var numbersDouble: [Double] = []
+        for _ in 1...5 {
+            let number = Int.random(in: 1...9)
+            numbersDouble.append(Double(number))
         }
-        calc.expression = "25 + -18 × 35 + -14 ÷ -7"
+        let numbers = numbersDouble.map({String(Int($0))})
+        calc.buttonHasBeenHitten(numbers[0])
+        calc.buttonHasBeenHitten("×")
+        calc.buttonHasBeenHitten(numbers[1])
+        calc.buttonHasBeenHitten("-")
+        calc.buttonHasBeenHitten(numbers[2])
+        calc.buttonHasBeenHitten("÷")
+        calc.buttonHasBeenHitten(numbers[3])
+        calc.buttonHasBeenHitten("+")
+        calc.buttonHasBeenHitten(numbers[4])
         calc.buttonHasBeenHitten("=")
+        guard let result = calc.resultInString(numbersDouble[0] * numbersDouble[1] - numbersDouble[2] / numbersDouble[3] + numbersDouble[4]) else {
+            XCTFail()
+            return
+        }
         XCTAssertNil(calc.error)
-        XCTAssert(calc.expression == "25 + -18 × 35 + -14 ÷ -7 = -603")
+        XCTAssert(calc.expression == "\(numbers[0]) × \(numbers[1]) - \(numbers[2]) ÷ \(numbers[3]) + \(numbers[4]) = \(result)")
+        
+    }
+    
+    // MARK: - Resolve negative numbers
+    
+    func testGivenExpressionContainsNegativeNumbers_WhenResolve_ThenResultIsCorrectWithoutError() {
+        var numbersDouble: [Double] = []
+        for _ in 1...6 {
+            let number = Int.random(in: 1...9)
+            numbersDouble.append(Double(number))
+        }
+        let numbers = numbersDouble.map({String(Int($0))})
+        calc.buttonHasBeenHitten(numbers[0])
+        calc.buttonHasBeenHitten("×")
+        calc.buttonHasBeenHitten("-")
+        calc.buttonHasBeenHitten(numbers[1])
+        calc.buttonHasBeenHitten("+")
+        calc.buttonHasBeenHitten("-")
+        calc.buttonHasBeenHitten(numbers[2])
+        calc.buttonHasBeenHitten("×")
+        calc.buttonHasBeenHitten(numbers[3])
+        calc.buttonHasBeenHitten("+")
+        calc.buttonHasBeenHitten(numbers[4])
+        calc.buttonHasBeenHitten("÷")
+        calc.buttonHasBeenHitten("-")
+        calc.buttonHasBeenHitten(numbers[5])
+        calc.buttonHasBeenHitten("=")
+        guard let result = calc.resultInString(numbersDouble[0] * -numbersDouble[1] - numbersDouble[2] * numbersDouble[3] + numbersDouble[4] / -numbersDouble[5]) else {
+            XCTFail()
+            return
+        }
+        print(calc.expression)
+        print("\(numbers[0]) × -\(numbers[1]) - \(numbers[2]) × \(numbers[3]) + \(numbers[4]) / -\(numbers[5]) = \(result)")
+        XCTAssertNil(calc.error)
+        XCTAssert(calc.expression == "\(numbers[0]) × -\(numbers[1]) - \(numbers[2]) × \(numbers[3]) + \(numbers[4]) ÷ -\(numbers[5]) = \(result)")
     }
 
     // MARK: New expression
     func testGivenAResultHasBeenDisplayer_WhenAddNumber_ThenNewCalculationBegins() {
-        let number = chooseNumber()
+        let number = chooseNumberButton()
         calc.buttonHasBeenHitten(number)
-        let operat = chooseOperator()
+        let operat = chooseOperatorButton()
         calc.buttonHasBeenHitten(operat)
         calc.buttonHasBeenHitten(number)
         calc.buttonHasBeenHitten("=")
@@ -140,11 +249,11 @@ class CalcTests: XCTestCase {
     }
 
     // MARK: Supporting Methods
-    func chooseNumber() -> String {
+    func chooseNumberButton() -> String {
         let number = Int.random(in: 1...9)
         return String(number)
     }
-    func chooseOperator() -> String {
+    func chooseOperatorButton() -> String {
         let number = Int.random(in: 0...3)
         switch number {
         case 0:

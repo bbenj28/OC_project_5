@@ -326,7 +326,7 @@ class Calc {
     /// Translate a number in a formatted string.
     /// - parameter result: The number to translate.
     /// - returns: The translated string, or *nil* if an error occured.
-    private func resultInString(_ result: Double) -> String? {
+    func resultInString(_ result: Double) -> String? {
         // create instance
         let formatter = NumberFormatter()
         // choosen formats
