@@ -69,7 +69,6 @@ class CalcTests: XCTestCase {
         calc.expression = "56 - 18 × 3 + 5 ÷ 0"
         calc.buttonHasBeenHitten("=")
         XCTAssert(calc.error == .divisionByZero)
-        XCTAssert(calc.expression == "")
     }
 
     // MARK: Expression resolving

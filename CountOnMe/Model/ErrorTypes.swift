@@ -17,8 +17,9 @@ enum ErrorTypes {
     case divisionByZero
     case missingOperator
     case translatedResult
+    case missingLastElement
     
-    
+    /// Alert's title.
     var title: String {
         switch self {
         case .missingOperator:
@@ -39,9 +40,12 @@ enum ErrorTypes {
             return "Division par zéro"
         case .translatedResult:
             return "Fatal error"
+        case .missingLastElement:
+            return "Fatal error"
         }
     }
     
+    /// Alert's message.
     var message: String {
         switch self {
         case .missingOperator:
@@ -62,6 +66,8 @@ enum ErrorTypes {
             return "L'opération aboutit à une division par zéro, ce qui est impossible !"
         case .translatedResult:
             return "Le résultat n'a pas pu être traduit au format texte !"
+        case .missingLastElement:
+            return "Le dernier élément de l'expression n'a pas pu être récupéré !"
         }
     }
 }

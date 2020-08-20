@@ -101,11 +101,30 @@ class Calc {
         }
     }
     
+    /// Actions to do when the C button is hitten.
     func CButtonHasBeenHitten() {
-        let numberToDelete: Int = expression.lastIndex(of: " ") == expression.index(before: expression.endIndex) ? 3:1
-        for _ in 1...numberToDelete {
-            expression.remove(at: expression.index(before: expression.endIndex))
+        let numberToDelete: Int
+        if expressionHaveResult {
+            if let last = elements.last {
+                numberToDelete = 3 + last.count
+            } else {
+                error = .missingLastElement
+                delegate?.displayAlert(.missingLastElement)
+                numberToDelete = 0
+            }
+        } else {
+            numberToDelete = expression.lastIndex(of: " ") == expression.index(before: expression.endIndex) ? 3:1
         }
+        if numberToDelete > 0 {
+            for _ in 1...numberToDelete {
+                expression.remove(at: expression.index(before: expression.endIndex))
+            }
+        }
+    }
+    
+    /// Action to do when the AC button is hitten.
+    func ACButtonHasBeenHitten() {
+        expression = ""
     }
 
     // MARK: - Add operator
@@ -200,12 +219,23 @@ class Calc {
         }
         // result
         guard let result: String = operationsToReduce.first else {
-            print(operationsToReduce.first)
             error = .notNumber
             delegate?.displayAlert(.notNumber)
             return
         }
-        expression.append(" = \(result)")
+        // result in double
+        guard let doubleResult = Double(result) else {
+            error = .notNumber
+            delegate?.displayAlert(.notNumber)
+            return
+        }
+        // translate result into string with a selected format
+        guard let translatedResult = resultInString(doubleResult) else {
+            error = .translatedResult
+            delegate?.displayAlert(.translatedResult)
+            return
+        }
+        expression.append(" = \(translatedResult)")
     }
 
     /// Resolve multiplications and divisions.
@@ -276,7 +306,6 @@ class Calc {
         var operationsToReduce = operations
         // get the left number
         guard let left = Double(operationsToReduce[index]) else {
-            print(operationsToReduce[index])
             error = .notNumber
             delegate?.displayAlert(.notNumber)
             return nil
@@ -289,7 +318,6 @@ class Calc {
         }
         // get the right number
         guard let right = Double(operationsToReduce[index + 2]) else {
-            print(operationsToReduce[index + 2])
             error = .notNumber
             delegate?.displayAlert(.notNumber)
             return nil
@@ -298,15 +326,10 @@ class Calc {
         guard let result = operation.resolve(left, right) else {
             error = .divisionByZero
             delegate?.displayAlert(.divisionByZero)
-            expression = ""
             return nil
         }
         // translate result in string
-        guard let translatedResult = resultInString(result) else {
-            error = .translatedResult
-            delegate?.displayAlert(.translatedResult)
-            return nil
-        }
+        let translatedResult = String(result)
         // add result in operationsToReduce after right number
         operationsToReduce.insert(translatedResult, at: index + 3)
         // remove left, operator, and right number from operationsToReduce
@@ -322,6 +345,7 @@ class Calc {
     private func resultInString(_ result: Double) -> String? {
         // create instance
         let formatter = NumberFormatter()
+        // choosen formats
         formatter.minimumFractionDigits = 0
         formatter.maximumFractionDigits = 6
         formatter.decimalSeparator = ","

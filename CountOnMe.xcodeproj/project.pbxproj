@@ -104,6 +104,8 @@
 		0396E5C524C3544B00D1D1A6 /* Supporting files */ = {
 			isa = PBXGroup;
 			children = (
+				1FA43BD9224E569A00F565CB /* Assets.xcassets */,
+				1FA43BDE224E569A00F565CB /* Info.plist */,
 				1FA43BD2224E569900F565CB /* AppDelegate.swift */,
 			);
 			path = "Supporting files";
@@ -134,8 +136,6 @@
 				0396E5C424C3544700D1D1A6 /* Controller */,
 				0396E5C324C3544300D1D1A6 /* View */,
 				0396E5C224C3544000D1D1A6 /* Model */,
-				1FA43BD9224E569A00F565CB /* Assets.xcassets */,
-				1FA43BDE224E569A00F565CB /* Info.plist */,
 			);
 			path = CountOnMe;
 			sourceTree = "<group>";
@@ -452,7 +452,7 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = XF9Z2VTWR3;
-				INFOPLIST_FILE = "$(SRCROOT)/CountOnMe/Info.plist";
+				INFOPLIST_FILE = "$(SRCROOT)/CountOnMe/Supporting files/Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 11.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
@@ -471,7 +471,7 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = XF9Z2VTWR3;
-				INFOPLIST_FILE = "$(SRCROOT)/CountOnMe/Info.plist";
+				INFOPLIST_FILE = "$(SRCROOT)/CountOnMe/Supporting files/Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 11.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
