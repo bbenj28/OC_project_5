@@ -20,6 +20,7 @@ enum ErrorTypes {
     case missingLastElement
     case missingResult
     case missingButtonTitle
+    case alreadyHaveResult
     
     /// Alert's title.
     var title: String {
@@ -48,6 +49,8 @@ enum ErrorTypes {
             return "Fatal error"
         case .missingButtonTitle:
             return "Fatal error"
+        case .alreadyHaveResult:
+            return "Nouveau calcul nécessaire"
         }
     }
     
@@ -61,7 +64,7 @@ enum ErrorTypes {
         case .incorrectExpression:
             return "Entrez une expression correcte !"
         case .haveEnoughElements:
-            return "Démarrez un nouveau calcul !"
+            return "Des éléments manquent afin de pouvoir résoudre l'opération !"
         case .unknownOperator:
             return "Un opérateur est inconnu !"
         case .notNumber:
@@ -78,6 +81,8 @@ enum ErrorTypes {
             return "Le résultat de l'opération n'a pas pu être trouvé dans operationsToReduce !"
         case .missingButtonTitle:
             return "Le titre du bouton est manquant, l'action n'a pas pu être résolue !"
+        case .alreadyHaveResult:
+            return "Démarrez un nouveau calcul !"
         }
     }
 }

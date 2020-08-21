@@ -175,7 +175,7 @@ class Calc {
         }
     }
     /// Check the last operator in expression and add or delete minus sign.
-    private func handleSecondOperator() {
+    func handleSecondOperator() {
         guard let firstOperator = elements.last else {
             handleError(.missingOperator)
             return
@@ -186,16 +186,10 @@ class Calc {
             }
             expression.append("- ")
         } else if firstOperator == "-" {
-            if expression.count < 2 {
-                // - was added as negative sign for the first number in expression, delete it
-                expression = ""
-            } else {
-                // - was added as an operator, replace it by +
-                for _ in 1...2 {
-                    expression.remove(at: expression.index(before: expression.endIndex))
-                }
-                expression.append("+ ")
+            for _ in 1...2 {
+                expression.remove(at: expression.index(before: expression.endIndex))
             }
+            expression.append("+ ")
         } else {
             // × and ÷ cases : add - as a negative sign
             expression.append("-")
@@ -213,6 +207,10 @@ class Calc {
         }
         guard expressionHaveEnoughElement else {
             handleError(.haveEnoughElements)
+            return
+        }
+        guard !expressionHaveResult else {
+            handleError(.alreadyHaveResult)
             return
         }
         // resolve operations in expression
