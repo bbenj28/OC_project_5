@@ -64,13 +64,13 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
-		0341BAD624C387FF00081D19 /* CalcTests */ = {
+		0341BAD624C387FF00081D19 /* CountOnMeTests */ = {
 			isa = PBXGroup;
 			children = (
 				0341BAD724C387FF00081D19 /* CalcTests.swift */,
 				0341BAD924C387FF00081D19 /* Info.plist */,
 			);
-			path = CalcTests;
+			path = CountOnMeTests;
 			sourceTree = "<group>";
 		};
 		0396E5C224C3544000D1D1A6 /* Model */ = {
@@ -115,7 +115,7 @@
 			isa = PBXGroup;
 			children = (
 				1FA43BD1224E569900F565CB /* CountOnMe */,
-				0341BAD624C387FF00081D19 /* CalcTests */,
+				0341BAD624C387FF00081D19 /* CountOnMeTests */,
 				1FA43BD0224E569900F565CB /* Products */,
 			);
 			sourceTree = "<group>";
@@ -294,7 +294,7 @@
 				BUNDLE_LOADER = "$(TEST_HOST)";
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = XF9Z2VTWR3;
-				INFOPLIST_FILE = CalcTests/Info.plist;
+				INFOPLIST_FILE = CountOnMeTests/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 13.5;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
@@ -315,7 +315,7 @@
 				BUNDLE_LOADER = "$(TEST_HOST)";
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = XF9Z2VTWR3;
-				INFOPLIST_FILE = CalcTests/Info.plist;
+				INFOPLIST_FILE = CountOnMeTests/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 13.5;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
