@@ -9,10 +9,20 @@
 import UIKit
 
 class CalcViewController: UIViewController {
+    
+    // MARK: - Outlets
+    
     @IBOutlet weak var ACButton: UIButton!
     @IBOutlet weak var CButton: UIButton!
     @IBOutlet weak var textView: UITextView!
+    
+    // MARK: - Properties
+    
+    /// Instance of the model.
     let calc = Calc()
+    
+    
+    // MARK: - ViewDidLoad
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -20,7 +30,10 @@ class CalcViewController: UIViewController {
         enableCACButton()
     }
     
-    // View actions
+    // MARK: - Button is hitten
+    
+    /// A button has been hitten.
+    /// - parameter sender: The hitten UIButton.
     @IBAction func tappedButton(_ sender: UIButton) {
         calc.buttonHasBeenHitten(sender.title(for: .normal))
         if calc.expression.count == 0 {
@@ -31,18 +44,28 @@ class CalcViewController: UIViewController {
         autoScrollTextView()
     }
     
+    // MARK: - AutoScroll
+    
+    /// When expression has been changed, verify if the text has to be scrolled, and eventually scroll it.
     private func autoScrollTextView() {
         // eventually auto scroll textView
         let range = NSMakeRange(textView.text.count - 1, 0)
         textView.scrollRangeToVisible(range)
     }
     
+    // MARK: - C & AC Buttons aspect
+    
+    /// Disable buttons and change aspect.
     private func disableCACButtons() {
         changeCACButtons(isEnabled: false, backgroundColor: #colorLiteral(red: 0.8039215803, green: 0.8039215803, blue: 0.8039215803, alpha: 1))
     }
+    
+    /// Enable Buttons and change aspect.
     private func enableCACButton() {
         changeCACButtons(isEnabled: true, backgroundColor: #colorLiteral(red: 0.2117647059, green: 0.4352941176, blue: 0.6039215686, alpha: 1))
     }
+    
+    /// Enable or disable buttons and change aspect.
     private func changeCACButtons(isEnabled: Bool, backgroundColor: UIColor) {
         let buttons: [UIButton] = [CButton, ACButton]
         for button in buttons {
@@ -53,6 +76,8 @@ class CalcViewController: UIViewController {
 }
 
 extension CalcViewController: CalcDisplayDelegate {
+    // MARK: - Delegate methods
+    
     /// Update textView with expression's content.
     /// - parameter expression: Calc.expression.
     func updateScreen(_ expression: String) {
