@@ -20,11 +20,6 @@ class CalcViewController: UIViewController {
         enableCACButton()
     }
     
-    private func updateTextView() {
-        // eventually auto scroll textView
-        let range = NSMakeRange(textView.text.count - 1, 0)
-        textView.scrollRangeToVisible(range)
-    }
     // View actions
     @IBAction func tappedButton(_ sender: UIButton) {
         calc.buttonHasBeenHitten(sender.title(for: .normal))
@@ -33,43 +28,39 @@ class CalcViewController: UIViewController {
         } else {
             enableCACButton()
         }
-        updateTextView()
+        autoScrollTextView()
     }
-    /*
-    @IBAction func ACButtonAction(_ sender: Any) {
-        calc.ACButtonHasBeenHitten()
-        disableCACButtons()
+    
+    private func autoScrollTextView() {
+        // eventually auto scroll textView
+        let range = NSMakeRange(textView.text.count - 1, 0)
+        textView.scrollRangeToVisible(range)
     }
-    @IBAction func CButtonAction(_ sender: Any) {
-        calc.CButtonHasBeenHitten()
-        if calc.expression.count == 0 {
-            disableCACButtons()
-        } else {
-            enableCACButton()
-        }
+    
+    private func disableCACButtons() {
+        changeCACButtons(isEnabled: false, backgroundColor: #colorLiteral(red: 0.8039215803, green: 0.8039215803, blue: 0.8039215803, alpha: 1))
     }
- */
-    func disableCACButtons() {
+    private func enableCACButton() {
+        changeCACButtons(isEnabled: true, backgroundColor: #colorLiteral(red: 0.2117647059, green: 0.4352941176, blue: 0.6039215686, alpha: 1))
+    }
+    private func changeCACButtons(isEnabled: Bool, backgroundColor: UIColor) {
         let buttons: [UIButton] = [CButton, ACButton]
         for button in buttons {
-            button.isEnabled = false
-            button.backgroundColor = #colorLiteral(red: 0.8039215803, green: 0.8039215803, blue: 0.8039215803, alpha: 1)
-        }
-    }
-    func enableCACButton() {
-        let buttons: [UIButton] = [CButton, ACButton]
-        for button in buttons {
-            button.isEnabled = true
-            button.backgroundColor = #colorLiteral(red: 0.2117647059, green: 0.4352941176, blue: 0.6039215686, alpha: 1)
+            button.isEnabled = isEnabled
+            button.backgroundColor = backgroundColor
         }
     }
 }
 
 extension CalcViewController: CalcDisplayDelegate {
+    /// Update textView with expression's content.
+    /// - parameter expression: Calc.expression.
     func updateScreen(_ expression: String) {
-        // update textView with expression's content
         textView.text = expression
     }
+    
+    /// Display an alert.
+    /// - parameter error: Error to display.
     func displayAlert(_ error: ErrorTypes) {
         let alertVC = UIAlertController(title: error.title,
                                         message: error.message, preferredStyle: .alert)
