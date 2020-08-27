@@ -8,11 +8,11 @@
 
 import Foundation
 
-class Calc {
+final class Calc {
     // MARK: - Properties
     
     /// Delegation to ask ViewController to display an alert.
-    var delegate: CalcDisplayDelegate?
+    weak var delegate: CalcDisplayDelegate?
     
     /// Expression to resolve, displayed in controller's label.
     var expression: String = "1 + 1 = 2" {
@@ -99,9 +99,9 @@ class Calc {
         } else if verifiedText == "=" {
             resolveExpression()
         } else if verifiedText == "AC" {
-            ACButtonHasBeenHitten()
+            acButtonHasBeenHitten()
         } else if verifiedText == "C" {
-            CButtonHasBeenHitten()
+            cButtonHasBeenHitten()
         } else {
             addOperatorToExpression(verifiedText)
         }
@@ -121,14 +121,11 @@ class Calc {
     // MARK: - Expression deletion on demand
     
     /// Actions to do when the C button is hitten.
-    private func CButtonHasBeenHitten() {
-        let numberToDelete: Int
+    private func cButtonHasBeenHitten() {
+        var numberToDelete: Int = 0
         if expressionHaveResult {
             if let last = elements.last {
                 numberToDelete = 3 + last.count
-            } else {
-                handleError(.missingLastElement)
-                numberToDelete = 0
             }
         } else {
             numberToDelete = expression.lastIndex(of: " ") == expression.index(before: expression.endIndex) ? 3:1
@@ -141,7 +138,7 @@ class Calc {
     }
     
     /// Action to do when the AC button is hitten.
-    private func ACButtonHasBeenHitten() {
+    private func acButtonHasBeenHitten() {
         expression = ""
     }
     
@@ -222,20 +219,11 @@ class Calc {
             // an error message has been displayed during operations
             return
         }
-        guard let result: String = remainingResult.first else {
-            handleError(.missingResult)
-            return
-        }
+        guard let result: String = remainingResult.first else { return }
         // result in double
-        guard let doubleResult = Double(result) else {
-            handleError(.notNumber)
-            return
-        }
+        guard let doubleResult = Double(result) else { return }
         // translate result into string with a selected format
-        guard let translatedResult = resultInString(doubleResult) else {
-            handleError(.translatedResult)
-            return
-        }
+        guard let translatedResult = resultInString(doubleResult) else { return }
         expression.append(" = \(translatedResult)")
     }
     
@@ -338,12 +326,7 @@ class Calc {
             formatter.numberStyle = .none
         }
         // transform the formated number in string
-        if let newResult = formatter.string(for: result) {
-            return newResult
-        } else {
-            return nil
-        }
+        return formatter.string(for: result)
     }
-    
     
 }

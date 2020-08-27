@@ -8,18 +8,18 @@
 
 import UIKit
 
-class CalcViewController: UIViewController {
+final class CalcViewController: UIViewController {
     
     // MARK: - Outlets
     
-    @IBOutlet weak var ACButton: UIButton!
-    @IBOutlet weak var CButton: UIButton!
-    @IBOutlet weak var textView: UITextView!
+    @IBOutlet private weak var acButton: UIButton!
+    @IBOutlet private weak var cButton: UIButton!
+    @IBOutlet private weak var textView: UITextView!
     
     // MARK: - Properties
     
     /// Instance of the model.
-    let calc = Calc()
+    private let calc = Calc()
     
     
     // MARK: - ViewDidLoad
@@ -34,13 +34,9 @@ class CalcViewController: UIViewController {
     
     /// A button has been hitten.
     /// - parameter sender: The hitten UIButton.
-    @IBAction func tappedButton(_ sender: UIButton) {
+    @IBAction private func tappedButton(_ sender: UIButton) {
         calc.buttonHasBeenHitten(sender.title(for: .normal))
-        if calc.expression.count == 0 {
-            disableCACButtons()
-        } else {
-            enableCACButton()
-        }
+        calc.expression.count == 0 ? disableCACButtons() : enableCACButton()
         autoScrollTextView()
     }
     
@@ -67,7 +63,7 @@ class CalcViewController: UIViewController {
     
     /// Enable or disable buttons and change aspect.
     private func changeCACButtons(isEnabled: Bool, backgroundColor: UIColor) {
-        let buttons: [UIButton] = [CButton, ACButton]
+        let buttons: [UIButton] = [cButton, acButton]
         for button in buttons {
             button.isEnabled = isEnabled
             button.backgroundColor = backgroundColor

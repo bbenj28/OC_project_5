@@ -7,7 +7,7 @@
 //
 
 import Foundation
-protocol CalcDisplayDelegate {
+protocol CalcDisplayDelegate: class {
     func displayAlert(_ error: ErrorTypes)
     func updateScreen(_ calculation: String)
 }
