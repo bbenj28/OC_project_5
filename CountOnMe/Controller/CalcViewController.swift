@@ -36,8 +36,6 @@ final class CalcViewController: UIViewController {
     /// - parameter sender: The hitten UIButton.
     @IBAction private func tappedButton(_ sender: UIButton) {
         calc.buttonHasBeenHitten(sender.title(for: .normal))
-        calc.expression.count == 0 ? disableCACButtons() : enableCACButton()
-        autoScrollTextView()
     }
     
     // MARK: - AutoScroll
@@ -78,6 +76,8 @@ extension CalcViewController: CalcDisplayDelegate {
     /// - parameter expression: Calc.expression.
     func updateScreen(_ expression: String) {
         textView.text = expression
+        calc.expression.count == 0 ? disableCACButtons() : enableCACButton()
+        autoScrollTextView()
     }
     
     /// Display an alert.
