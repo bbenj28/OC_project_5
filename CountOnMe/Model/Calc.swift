@@ -197,7 +197,7 @@ final class Calc {
     
     /// This method is called when the equal button is hitten.
     private func resolveExpression() {
-        // expression verifications : is correct && have enought elements
+        // expression verifications
         guard expressionIsCorrect else {
             handleError(.incorrectExpression)
             return
