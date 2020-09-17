@@ -44,28 +44,6 @@ class CalcTests: XCTestCase {
         XCTAssert(calc.expression == "")
         XCTAssert(calc.error == .missingButtonTitle)
     }
-    func testGivenExpressionContainsANumber_WhenResolve_ThenErrorIsDisplayed() {
-        let number = chooseNumberButton()
-        calc.buttonHasBeenHitten(number)
-        calc.buttonHasBeenHitten("=")
-        XCTAssert(calc.error == .haveEnoughElements)
-    }
-    func testGivenExpressionContainsANumberAndAnOperator_WhenAddAnOperatorWhichIsNotMinus_ThenErrorIsDisplayed() {
-        let number = chooseNumberButton()
-        calc.buttonHasBeenHitten(number)
-        let operat = chooseOperatorButton()
-        calc.buttonHasBeenHitten(operat)
-        calc.buttonHasBeenHitten("×")
-        XCTAssert(calc.error == .existingOperator)
-    }
-    func testGivenLastExpressionIsAnOperator_WhenResolve_ThenErrorIsDisplayed() {
-        let number = chooseNumberButton()
-        calc.buttonHasBeenHitten(number)
-        let operat = chooseOperatorButton()
-        calc.buttonHasBeenHitten(operat)
-        calc.buttonHasBeenHitten("=")
-        XCTAssert(calc.error == .incorrectExpression)
-    }
     func testGivenAnExpressionWithoutAValidOperatorExists_WhenHitEqual_ThenErrorIsDisplayed() {
         calc.expression = "2 £ 2"
         calc.buttonHasBeenHitten("=")
@@ -75,15 +53,47 @@ class CalcTests: XCTestCase {
         calc.buttonHasBeenHitten("")
         XCTAssert(calc.error == .missingButtonTitle)
     }
+    func testGivenExpressionIsEmpty_WhenAskCalcToHandleASecondOperator_ThenErrorIsDisplayed() {
+        calc.expression = ""
+        calc.handleSecondOperator()
+        XCTAssert(calc.error == .missingOperator)
+    }
+    func testGivenExpressionLeftSideContainsLetters_WhenHitEqual_ThenErrorIsDisplayed() {
+        calc.expression = "brb + 18"
+        calc.buttonHasBeenHitten("=")
+        XCTAssert(calc.error == .notNumber)
+    }
+    func testGivenExpressionRightSideContainsLetters_WhenHitEqual_ThenErrorIsDisplayed() {
+        calc.expression = "05 + elb"
+        calc.buttonHasBeenHitten("=")
+        XCTAssert(calc.error == .notNumber)
+    }
     func testGivenExpressionIsEmpty_WhenANonMinusOperatorHasBeenHitten_ThenErrorIsDisplayed() {
         calc.expression = ""
         calc.buttonHasBeenHitten("×")
         XCTAssert(calc.error == .firstElementIsAnOperator)
     }
-    func testGivenExpressionIsEmpty_WhenAskCalcToHandleASecondOperator_ThenErrorIsDisplayed() {
-        calc.expression = ""
-        calc.handleSecondOperator()
-        XCTAssert(calc.error == .missingOperator)
+    func testGivenExpressionContainsANumber_WhenResolve_ThenErrorIsDisplayed() {
+        let number = chooseNumberButton()
+        calc.buttonHasBeenHitten(number)
+        calc.buttonHasBeenHitten("=")
+        XCTAssert(calc.error == .haveEnoughElements)
+    }
+    func testGivenLastExpressionIsAnOperator_WhenResolve_ThenErrorIsDisplayed() {
+        let number = chooseNumberButton()
+        calc.buttonHasBeenHitten(number)
+        let operat = chooseOperatorButton()
+        calc.buttonHasBeenHitten(operat)
+        calc.buttonHasBeenHitten("=")
+        XCTAssert(calc.error == .incorrectExpression)
+    }
+    func testGivenExpressionContainsANumberAndAnOperator_WhenAddAnOperatorWhichIsNotMinus_ThenErrorIsDisplayed() {
+        let number = chooseNumberButton()
+        calc.buttonHasBeenHitten(number)
+        let operat = chooseOperatorButton()
+        calc.buttonHasBeenHitten(operat)
+        calc.buttonHasBeenHitten("×")
+        XCTAssert(calc.error == .existingOperator)
     }
     func testGivenExpressionContainsADivisionByZero_WhenHitEqual_ThenErrorIsDisplayed() {
         var numbers: [String] = []
@@ -118,16 +128,6 @@ class CalcTests: XCTestCase {
     func testGivenExpressionContainsAResult_WhenHitEqual_ThenErrorIsDisplayed() {
         calc.buttonHasBeenHitten("=")
         XCTAssert(calc.error == .alreadyHaveResult)
-    }
-    func testGivenExpressionLeftSideContainsLetters_WhenHitEqual_ThenErrorIsDisplayed() {
-        calc.expression = "brb + 18"
-        calc.buttonHasBeenHitten("=")
-        XCTAssert(calc.error == .notNumber)
-    }
-    func testGivenExpressionRightSideContainsLetters_WhenHitEqual_ThenErrorIsDisplayed() {
-        calc.expression = "05 + elb"
-        calc.buttonHasBeenHitten("=")
-        XCTAssert(calc.error == .notNumber)
     }
 
     // MARK: - Resolve positive numbers
