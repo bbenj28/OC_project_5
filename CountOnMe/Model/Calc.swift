@@ -17,7 +17,7 @@ final class Calc {
     /// Expression to resolve, displayed in controller's label.
     var expression: String = "1 + 1 = 2" {
         didSet {
-            delegate?.updateScreen(expression)
+            delegate?.updateScreen()
         }
     }
     

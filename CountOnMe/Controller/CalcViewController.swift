@@ -74,8 +74,8 @@ extension CalcViewController: CalcDisplayDelegate {
     
     /// Update textView with expression's content.
     /// - parameter expression: Calc.expression.
-    func updateScreen(_ expression: String) {
-        textView.text = expression
+    func updateScreen() {
+        textView.text = calc.expression
         calc.expression.count == 0 ? disableCACButtons() : enableCACButton()
         autoScrollTextView()
     }

@@ -43,41 +43,57 @@ class CalcTests: XCTestCase {
         calc.buttonHasBeenHitten(nil)
         XCTAssert(calc.expression == "")
         XCTAssert(calc.error == .missingButtonTitle)
+        XCTAssertNotNil(calc.error?.title)
+        XCTAssertNotNil(calc.error?.message)
     }
     func testGivenAnExpressionWithoutAValidOperatorExists_WhenHitEqual_ThenErrorIsDisplayed() {
         calc.expression = "2 £ 2"
         calc.buttonHasBeenHitten("=")
         XCTAssert(calc.error == .unknownOperator)
+        XCTAssertNotNil(calc.error?.title)
+        XCTAssertNotNil(calc.error?.message)
     }
     func testGivenButtonTitleIsEmpty_WhenTheButtonIsHitten_ThenErrorIsDisplayed() {
         calc.buttonHasBeenHitten("")
         XCTAssert(calc.error == .missingButtonTitle)
+        XCTAssertNotNil(calc.error?.title)
+        XCTAssertNotNil(calc.error?.message)
     }
     func testGivenExpressionIsEmpty_WhenAskCalcToHandleASecondOperator_ThenErrorIsDisplayed() {
         calc.expression = ""
         calc.handleSecondOperator()
         XCTAssert(calc.error == .missingOperator)
+        XCTAssertNotNil(calc.error?.title)
+        XCTAssertNotNil(calc.error?.message)
     }
     func testGivenExpressionLeftSideContainsLetters_WhenHitEqual_ThenErrorIsDisplayed() {
         calc.expression = "brb + 18"
         calc.buttonHasBeenHitten("=")
         XCTAssert(calc.error == .notNumber)
+        XCTAssertNotNil(calc.error?.title)
+        XCTAssertNotNil(calc.error?.message)
     }
     func testGivenExpressionRightSideContainsLetters_WhenHitEqual_ThenErrorIsDisplayed() {
         calc.expression = "05 + elb"
         calc.buttonHasBeenHitten("=")
         XCTAssert(calc.error == .notNumber)
+        XCTAssertNotNil(calc.error?.title)
+        XCTAssertNotNil(calc.error?.message)
     }
     func testGivenExpressionIsEmpty_WhenANonMinusOperatorHasBeenHitten_ThenErrorIsDisplayed() {
         calc.expression = ""
         calc.buttonHasBeenHitten("×")
         XCTAssert(calc.error == .firstElementIsAnOperator)
+        XCTAssertNotNil(calc.error?.title)
+        XCTAssertNotNil(calc.error?.message)
     }
     func testGivenExpressionContainsANumber_WhenResolve_ThenErrorIsDisplayed() {
         let number = chooseNumberButton()
         calc.buttonHasBeenHitten(number)
         calc.buttonHasBeenHitten("=")
         XCTAssert(calc.error == .haveEnoughElements)
+        XCTAssertNotNil(calc.error?.title)
+        XCTAssertNotNil(calc.error?.message)
     }
     func testGivenLastExpressionIsAnOperator_WhenResolve_ThenErrorIsDisplayed() {
         let number = chooseNumberButton()
@@ -86,6 +102,8 @@ class CalcTests: XCTestCase {
         calc.buttonHasBeenHitten(operat)
         calc.buttonHasBeenHitten("=")
         XCTAssert(calc.error == .incorrectExpression)
+        XCTAssertNotNil(calc.error?.title)
+        XCTAssertNotNil(calc.error?.message)
     }
     func testGivenExpressionContainsANumberAndAnOperator_WhenAddAnOperatorWhichIsNotMinus_ThenErrorIsDisplayed() {
         let number = chooseNumberButton()
@@ -94,6 +112,8 @@ class CalcTests: XCTestCase {
         calc.buttonHasBeenHitten(operat)
         calc.buttonHasBeenHitten("×")
         XCTAssert(calc.error == .existingOperator)
+        XCTAssertNotNil(calc.error?.title)
+        XCTAssertNotNil(calc.error?.message)
     }
     func testGivenExpressionContainsADivisionByZero_WhenHitEqual_ThenErrorIsDisplayed() {
         var numbers: [String] = []
@@ -124,10 +144,14 @@ class CalcTests: XCTestCase {
         calc.buttonHasBeenHitten(numbers[9])
         calc.buttonHasBeenHitten("=")
         XCTAssert(calc.error == .divisionByZero)
+        XCTAssertNotNil(calc.error?.title)
+        XCTAssertNotNil(calc.error?.message)
     }
     func testGivenExpressionContainsAResult_WhenHitEqual_ThenErrorIsDisplayed() {
         calc.buttonHasBeenHitten("=")
         XCTAssert(calc.error == .alreadyHaveResult)
+        XCTAssertNotNil(calc.error?.title)
+        XCTAssertNotNil(calc.error?.message)
     }
 
     // MARK: - Resolve positive numbers
@@ -358,11 +382,15 @@ class CalcTests: XCTestCase {
     
 
     // MARK: - Supporting Methods
-    func chooseNumberButton() -> String {
+    /// Choose random number.
+    /// - returns: Choosen number.
+    private func chooseNumberButton() -> String {
         let number = Int.random(in: 1...9)
         return String(number)
     }
-    func chooseOperatorButton() -> String {
+    /// Choose random operator.
+    /// - returns: choosen operator.
+    private func chooseOperatorButton() -> String {
         let number = Int.random(in: 0...3)
         switch number {
         case 0:

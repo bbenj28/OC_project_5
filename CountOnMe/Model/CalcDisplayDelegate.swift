@@ -9,5 +9,5 @@
 import Foundation
 protocol CalcDisplayDelegate: class {
     func displayAlert(_ error: ErrorTypes)
-    func updateScreen(_ calculation: String)
+    func updateScreen()
 }
